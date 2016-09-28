@@ -1,0 +1,182 @@
+/* globals */
+
+const SMFConsole = require('./log.js');
+
+/** @type {SMF.UI.iOS.NavigationBar | SMF.UI.Page.actionBar}*/
+const assignKeys = function(source, options, ignoreKey, hasKeyThenReload) {
+  return function(key) {
+    // alert(options[key]);
+    if(key != ignoreKey) {
+      if(key != hasKeyThenReload && source.hasProp(key)) {
+        source.set(key,  options[key]);
+      } else if(key == hasKeyThenReload) {
+        Object.keys(options[key]).forEach(assignKeys(source, options[key], "ios", "android"));
+      } else {
+        throw new Error("Option ["+key+"] is not found");
+      }
+    }
+  };
+};
+
+/**
+ * @ignore
+ */
+const NullProperty = function(){
+};
+
+/**
+ * Android Actionbar Proxy
+ *
+ * @oaram {SMF.UI.iOS.NagigationBar} navigationBar
+ * @oaram {AbstractPage} page
+ * @ignore
+ */
+const AndroidProxy = function(actionBar){
+  return {
+    hasProp: function(prop){
+      return !(this.get(prop) instanceof NullProperty);
+    }
+    ,get: function(prop){
+      if(actionBar.hasOwnProperty(prop)){
+        return actionBar[prop];
+      }
+
+      return new NullProperty();
+    }
+    ,set: function(prop, value){
+      if(actionBar.hasOwnProperty(prop)){
+        return actionBar[prop] = value;
+      } 
+
+      return new NullProperty();
+    }
+  }
+};
+
+/**
+ * iOS NavigationBar & NavigationItemBar
+ *
+ * @oaram {SMF.UI.iOS.NagigationBar} navigationBar
+ * @oaram {AbstractPage} page
+ * @ignore
+ */
+const iOSProxy = function(navigationBar, page){
+  return {
+    hasProp: function(prop){
+      return navigationBar.hasOwnProperty(prop) 
+        || (page.navigationItem && page.navigationItem.hasOwnProperty(prop));
+    }
+    ,get: function(prop){
+      if(navigationBar.hasOwnProperty(prop)){
+        return navigationBar[prop];
+      } else if(page.navigationItem && page.navigationItem.hasOwnProperty(prop)){
+        return page.navigationItem[prop];
+      } 
+
+      return new NullProperty();
+    }
+    ,set: function(prop, value){
+      if(navigationBar.hasOwnProperty(prop)){
+        return navigationBar[prop] = value;
+      } else if(page.navigationItem && page.navigationItem.hasOwnProperty(prop)){
+        return page.navigationItem[prop] = value;
+      }
+
+      return new NullProperty();
+    }
+  }
+}
+
+const runOnAndroid = function(page, options) {
+  let actionBarProxy = new AndroidProxy(page.actionBar);
+  return {
+    unload: function(){
+      this.reset();
+      page = null;
+      options = null;
+      actionBarProxy = null;
+    }
+    , reset: function(){
+      Object
+        .keys(ActionBarWrapper.options)
+        .forEach(
+          assignKeys(actionBarProxy, ActionBarWrapper.options, "ios", "android"));
+    }
+    , reload: function(){
+      Object
+        .keys(options)
+        .forEach(assignKeys(actionBarProxy, options, "ios", "android"));
+    }
+    , update: function(newOptions){
+      newOptions = Object.assign({}, newOptions);
+      Object
+        .keys(options)
+        .forEach(assignKeys(actionBarProxy, options, "ios", "android"));
+      options = Object.assign(options, newOptions);
+    }
+  };
+};
+
+const runOniOS = function(page, options) {
+  var navigationProxy = new iOSProxy(SMF.UI.iOS.NavigationBar, page);
+  return {
+    unload: function(){
+      this.reset();
+      page = null;
+      options = null;
+    }
+    , reset: function(){
+      Object
+        .keys(ActionBarWrapper.options)
+        .forEach(
+          assignKeys(navigationProxy, ActionBarWrapper.options, "android", "ios"));
+    }
+    , reload: function(){
+      Object
+        .keys(options)
+        .forEach(assignKeys(navigationProxy, options, "android", "ios"));
+    }
+    , update: function(newOptions){
+      newOptions = Object.assign({}, newOptions);
+      Object
+        .keys(options)
+        .forEach(assignKeys(navigationProxy, options, "android", "ios"));
+      options = Object.assign(options, newOptions);
+    }
+  };
+};
+
+const ActionBarWrapper = function(page, options) {
+  options = Object.assign({}, options);
+  
+  if (Device.deviceOS === "Android") {
+    return runOnAndroid(page, options);
+  } else {
+    return runOniOS(page, options);
+  }
+};
+
+ActionBarWrapper.options = {
+    visible: false
+  , overlay: false
+  , backgroundImage: null
+  , backgroundColor: "#000000"
+  , titleView: {}
+  , enabled: true
+  , ios: {
+      rightBarButtonItems: []
+    , leftBarButtonItems: []
+    , translucent: false
+  }
+  , homeButton: null
+  , android: {
+      hideOnContentScroll: false
+    , icon: null
+    , onHomeIconItemSelected: null
+    , displayShowHomeEnabled: false
+    , alpha: 1
+    , menuItems: []
+  }
+};
+
+module.exports = ActionBarWrapper;
