@@ -1,5 +1,3 @@
-/* globals */
-
 const SMFConsole = require('./log.js');
 
 /** @type {SMF.UI.iOS.NavigationBar | SMF.UI.Page.actionBar}*/
@@ -16,12 +14,6 @@ const assignKeys = function(source, options, ignoreKey, hasKeyThenReload) {
       }
     }
   };
-};
-
-/**
- * @ignore
- */
-const NullProperty = function(){
 };
 
 /**
@@ -65,17 +57,17 @@ const iOSProxy = function(navigationBar, page){
     hasProp: function(prop){
       return navigationBar.hasOwnProperty(prop) 
         || (page.navigationItem && page.navigationItem.hasOwnProperty(prop));
-    }
-    ,get: function(prop){
+    },
+    get: function(prop){
       if(navigationBar.hasOwnProperty(prop)){
         return navigationBar[prop];
       } else if(page.navigationItem && page.navigationItem.hasOwnProperty(prop)){
         return page.navigationItem[prop];
-      } 
+      }
 
       return new NullProperty();
-    }
-    ,set: function(prop, value){
+    },
+    set: function(prop, value){
       if(navigationBar.hasOwnProperty(prop)){
         return navigationBar[prop] = value;
       } else if(page.navigationItem && page.navigationItem.hasOwnProperty(prop)){
