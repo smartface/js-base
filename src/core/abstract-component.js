@@ -1,8 +1,30 @@
-const AbstractComponent = function(){
+const Proxy = require("./proxy");
+
+const stateContainer = function (state, onChange) {
+  state = Object.assign({}, state);
+
+  return function changeState(update){
+    if(update){
+      state = Object.assign(state, update);
+      onChange(Object.assign({}, state));
+    }
+
+    return Object.assign({}, state);
+  }
+};
+
+const AbstractComponent = function(_view, initialState){
+  this._viewProxy = new Proxy(_view);
+  this._changeState = stateContainer(initialState, this.changeStateHandlder);
+};
+
+AbstractComponent.prototype._changeState = function () {};
+
+AbstractComponent.prototype.changeStateHandlder = function(state) {
+  throw new Error("Abstract changeStateHandler method must overriden");
 };
 
 AbstractComponent.prototype.add = function(child) {
-  // SMFConsole.dir(child);
   try {
     if (child instanceof AbstractComponent) {
       this._view.add(child._view);
@@ -15,20 +37,12 @@ AbstractComponent.prototype.add = function(child) {
   }
 };
 
-AbstractComponent.prototype.getWidth = function () {
-  return this._view.width;
+AbstractComponent.prototype.set = function (prop, value) {
+  return this._viewProxy.set(prop, value);
 };
 
-AbstractComponent.prototype.setWidth = function (value) {
-  this._view.width.width = value;
-};
-
-AbstractComponent.prototype.getHeight = function () {
-  return this._view.height;
-};
-
-AbstractComponent.prototype.setHeight = function (value) {
-  this._view.width.height = value;
+AbstractComponent.prototype.get = function (prop) {
+  return this._viewProxy.get(prop);
 };
 
 module.exports = AbstractComponent;

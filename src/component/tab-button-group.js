@@ -109,13 +109,12 @@ const TabButtonGroup = function(params, tabButtonsContainerProps, contentContain
 };
 
 TabButtonGroup.prototype.changeTab = function(index){
-  
-}
+};
 
 // Extends from Component Class
 TabButtonGroup.prototype = Object.create(Component.prototype);
 
-// Overrides add method
+// Overrides super add method
 TabButtonGroup.prototype.add = function(button, content, name, isSelected){
   const onTouch = this
     ._buttonTouchHandler(
@@ -127,8 +126,9 @@ TabButtonGroup.prototype.add = function(button, content, name, isSelected){
   
   this._tabButtonAdd(button);
   
-  if(isSelected)
+  if(isSelected) {
     onTouch.call(button);
+  }
 };
 
 // returns change handler stream

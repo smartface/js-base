@@ -5,10 +5,11 @@
   "license": "MIT",
   "version": "1.0.0",
   "scripts": {
-    "test" : "jasmine"
+    "test": "node ./jasmine-reporter.js"
   },
   "devDependencies": {
     "jasmine": "^2.5.2",
+    "jasmine-spec-reporter": "^2.7.0",
     "mocha": "^3.1.2"
   }
 }
