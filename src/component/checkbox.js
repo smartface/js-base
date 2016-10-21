@@ -1,22 +1,25 @@
-const component = require("../component/component");
+const component = require("../component/component").component;
 
-const CheckBox = component(function (_super, params) {
-  _super.apply(this,
-    {},
-    {
-      checked: false
-    }
+/**
+ *
+ * @param _super
+ * @param param
+ */
+const constructor = function (_super, view, params) {
+  _super.apply(
+    this,
+    view,
+    {checked: false}
   );
-});
+};
+
+const CheckBox = component(constructor);
 
 CheckBox.prototype.toggle = function () {
   const state = this._changeState();
-
-  this._changeState({
-    checked: !state.checked
-  });
+  this._changeState({checked: !state.checked});
 };
 
-CheckBox.prototype.changeStateHandlder = function (state) {
-
+CheckBox.prototype.subscribe = function (f) {
+  return f();
 };

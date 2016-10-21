@@ -4,11 +4,22 @@
 
 const extend            = require("../core/extend");
 const AbstractComponent = require("../core/abstract-component");
+const SMFx = require("../infrastructure/smfx");
+
+const SMFMockUIComponent  = function () {
+  // SMFx.of();
+};
 
 const MockAbstractComponent = function () {
+  this.getEventStream = function () {
+    return "stream";
+  };
 };
 
 const mockComponent = extend(MockAbstractComponent);
+
+mockComponent.prototype.touch = function () {
+};
 
 /**
  * Creates Component inheritance ready function, when class

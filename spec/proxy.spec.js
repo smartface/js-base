@@ -2,8 +2,8 @@
  * Created by smartface on 10/17/16.
  */
 
-const Proxy        = require("./proxy");
-const NullProperty = require("./null-property");
+const Proxy        = require("./../src/core/proxy");
+const NullProperty = require("./../src/core/null-property");
 
 describe("Proxy", function() {
   var component = {prop:"-"};

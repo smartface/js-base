@@ -1,27 +1,25 @@
+const SMFx = require("../infrastructure/smfx");
+
 const Proxy = require("./proxy");
+const stateContainer = require("../core/abstract-component-state");
 
-const stateContainer = function (state, onChange) {
-  state = Object.assign({}, state);
-
-  return function changeState(update){
-    if(update){
-      state = Object.assign(state, update);
-      onChange(Object.assign({}, state));
+const streamContainer = function (target) {
+  return function (event) {
+    try{
+      return SMFx.fromCallback(target.get(event));
+    } catch (e) {
+      throw e;
     }
-
-    return Object.assign({}, state);
   }
 };
 
-const AbstractComponent = function(_view, initialState){
-  this._viewProxy = new Proxy(_view);
-  this._changeState = stateContainer(initialState, this.changeStateHandlder);
-};
-
-AbstractComponent.prototype._changeState = function () {};
-
-AbstractComponent.prototype.changeStateHandlder = function(state) {
-  throw new Error("Abstract changeStateHandler method must overriden");
+const AbstractComponent = function(_view, initialState) {
+  if(!_view){
+    throw new Error("Component View must not be undefined");
+  }
+  this._viewProxy     = new Proxy(_view);
+  this._changeState   = stateContainer(initialState, this.changeStateHandlder);
+  this.getEventStream = streamContainer(this);
 };
 
 AbstractComponent.prototype.add = function(child) {

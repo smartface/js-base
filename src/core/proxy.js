@@ -11,17 +11,25 @@ const NullProperty = require("./null-property");
 const Proxy = function(component){
   return {
     hasProp: function(prop){
-      return !(this.get(prop) instanceof NullProperty);
+      return component.hasOwnProperty(prop);
+    },
+    hasMethod: function(prop){
+      return (typeof component[prop] === "function");
+    },
+    has: function (prop) {
+      return this.hasProp(prop) || this.hasMethod(prop);
     },
     get: function(prop){
-      if(component.hasOwnProperty(prop)){
+      if(this.hasProp(prop)){
         return component[prop];
+      } else if(this.hasMethod(prop)){
+        return component[prop].call(component, Array.prototype.slice.call(arguments, 1));
       }
 
       return new NullProperty();
     },
     set: function(prop, value){
-      if(component.hasOwnProperty(prop)){
+      if(this.hasProp(prop)){
         return component[prop] = value;
       }
 

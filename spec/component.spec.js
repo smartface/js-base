@@ -1,5 +1,5 @@
-const component = require("./component").mockComponent;
-const AbstractComponent = require("./component").MockAbstractComponent;
+const component = require("./../src/component/component").mockComponent;
+const AbstractComponent = require("./../src/component/component").MockAbstractComponent;
 
 describe("component wrapper", function() {
   var comp;
@@ -36,10 +36,12 @@ describe("component wrapper", function() {
   });
 
   it("should be able to be added new methods", function() {
-    constructor.prototype.method1 = function () {
+    function method1() {
     };
 
+    constructor.prototype.method1 = method1;
+
     const inst = new comp("param1", "param2");
-    expect(typeof inst.method1 === 'function').toBe(true);
+    expect(inst.method1 == method1).toBe(true);
   });
 });

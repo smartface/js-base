@@ -2,7 +2,7 @@
  * Created by smartface on 10/18/16.
  */
 
-const Styler       = require("./styler");
+const Styler       = require("./../src/core/styler");
 
 describe("Styler", function() {
   var component = {prop:"-", top: 0, left: 0};
