@@ -44,9 +44,10 @@ const Proxy = function(component){
  * @param data {object}
  * @returns {Function}
  */
-Proxy.assign = function(component, data, isRequired=true) {
+Proxy.assign = function(component, data, isRequired) {
   const proxy = Proxy(component);
-
+  isRequired = !!isRequired;
+  
   data = Object.assign({}, data);
   Object
     .keys(data)
