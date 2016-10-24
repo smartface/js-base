@@ -13,13 +13,22 @@ const streamContainer = function (target) {
   }
 };
 
-const AbstractComponent = function(_view, initialState) {
-  if(!_view){
+const AbstractComponent = function(view, name, initialState) {
+  if(!view){
     throw new Error("Component View must not be undefined");
   }
-  this._viewProxy     = new Proxy(_view);
+
+  this._viewProxy     = new Proxy(view);
   this._changeState   = stateContainer(initialState, this.changeStateHandlder);
   this.getEventStream = streamContainer(this);
+
+  this.getName = function () {
+    return name;
+  }
+};
+
+AbstractComponent.Events = {
+  TOUCH: "onTouch"
 };
 
 AbstractComponent.prototype.add = function(child) {

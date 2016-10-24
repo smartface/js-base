@@ -1,11 +1,12 @@
-const component = require("./../src/component/component").mockComponent;
-const AbstractComponent = require("./../src/component/component").MockAbstractComponent;
+const component         = require("./../src/component/component").component;
+const AbstractComponent = require("./../src/core/abstract-component");
 
 describe("component wrapper", function() {
   var comp;
 
   var constructor = function (_super, param1, param2) {
-    _super.apply(this);
+    var view = {};
+    _super.call(this, view);
   };
 
   beforeEach(function() {
@@ -13,11 +14,11 @@ describe("component wrapper", function() {
   });
 
   it("should return constructor extends from AbstractComponent", function() {
-    const inst = new comp();
+    const inst = new comp("param1", "param2");
     expect(inst instanceof AbstractComponent).toBe(true);
   });
 
-  it("should be injected super constructor", function() {
+  it("should be injected from super constructor", function() {
     var constructor = function (_super) {
       expect(_super === AbstractComponent).toBe(true);
     };
@@ -39,9 +40,13 @@ describe("component wrapper", function() {
     function method1() {
     };
 
-    constructor.prototype.method1 = method1;
+    comp = component(constructor,
+      function (_proto) {
+        _proto.method1 = method1;
+      });
 
     const inst = new comp("param1", "param2");
+
     expect(inst.method1 == method1).toBe(true);
   });
 });

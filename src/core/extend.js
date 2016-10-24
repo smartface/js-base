@@ -14,7 +14,6 @@
 // return concrete class composer
 const extend = function (_super) {
   return function (f, addMethods) {
-    var proto = f.prototype;
     f.prototype = Object.create(_super.prototype);
     if(addMethods)
       addMethods(f.prototype);
