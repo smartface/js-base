@@ -11,13 +11,25 @@
 //
 // return _concrete;
 
+function bind(context) {
+    var self = this;
+    return function() {
+        self.apply(context, arguments);
+    }
+}
+
 // return concrete class composer
 const extend = function (_super) {
   return function (f, addMethods) {
-    f.prototype = Object.create(_super.prototype);
-    if(addMethods)
+    f.prototype = _super.prototype;
+    
+    if(addMethods){
       addMethods(f.prototype);
-    return f.bind(null, _super);
+    }
+    
+    const bound = f.bind(null, _super)
+    bound.prototype = f.prototype;
+    return bound;
   };
 };
 

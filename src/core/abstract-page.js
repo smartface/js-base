@@ -7,8 +7,7 @@ const extend = require("./extend")
  * @param params Page Control Params
  * @constructor
  */
-const constructor = function(_super, params) {
-  const view = new SMF.UI.Page(params);
+const constructor = function(_super, view) {
   _super.call(this, view);
   
   this._view = view;

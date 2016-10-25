@@ -3,12 +3,13 @@
   "description": "Smartface Core",
   "repository": "",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.0.0-beta2",
   "scripts": {
     "test": "node ./jasmine-reporter.js"
   },
   "devDependencies": {
     "jasmine": "^2.5.2",
+    "jasmine-reporters": "^2.2.0",
     "jasmine-spec-reporter": "^2.7.0",
     "mocha": "^3.1.2"
   },
