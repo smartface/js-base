@@ -37,7 +37,7 @@ describe("AbstractComponent", function() {
 
   beforeEach(function () {
     concrete = function (_super) {
-      _super.call(this, {
+      _super(this, {
         onEnter: ""
       });
     };
@@ -46,14 +46,15 @@ describe("AbstractComponent", function() {
   it("should implement super method", function () {
     /** @type {AbstractComponent} */
     var comp = component(concrete, addMethods);
-    comp = new comp();
+    comp = new comp({});
     expect(comp.hasOwnProperty("getEventStream")).toBe(true);
+    expect(comp instanceof AbstractComponent).toBe(true);
   });
 
   it("should be able to call concrete method", function () {
     /** @type {AbstractComponent} */
     var comp = component(concrete, addMethods);
-    comp = new comp();
+    comp = new comp({});
 
     // expect(comp.hasOwnProperty("onEnter")).toBe(true);
     expect(typeof comp.click === "function").toBe(true);
@@ -62,7 +63,7 @@ describe("AbstractComponent", function() {
   it("should stream component events", function () {
     /** @type {AbstractComponent} */
     var comp = component(concrete, addMethods);
-    comp = new comp;
+    comp = new comp({});
 
     comp
       .getEventStream("onEvent")

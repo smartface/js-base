@@ -7,13 +7,19 @@ const extend = require("./extend")
  * @param params Page Control Params
  * @constructor
  */
-const constructor = function(_super, view) {
-  _super.call(this, view);
-  
+function AbstractPage(_super, view) {
+  _super(this, view);
   this._view = view;
 };
 
-var AbstractPage = extend(AbstractComponent)(constructor);
+module.exports = extend(AbstractComponent)(
+  AbstractPage, 
+  function(_proto){
+    _proto.show = function(){
+      
+    }
+  }
+);
 
 /*PageBase.prototype = Object.create(AbstractComponent.prototype);
 
@@ -65,4 +71,3 @@ PageBase.prototype.setFillColor = function(color) {};
 
 PageBase.prototype.setGestures = function() {};*/
 
-module.exports = AbstractPage;

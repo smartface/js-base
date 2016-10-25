@@ -6,7 +6,7 @@ describe("component wrapper", function() {
 
   var constructor = function (_super, param1, param2) {
     var view = {};
-    _super.call(this, view);
+    _super(this, view);
   };
 
   beforeEach(function() {
@@ -20,11 +20,13 @@ describe("component wrapper", function() {
 
   it("should be injected from super constructor", function() {
     var constructor = function (_super) {
-      expect(_super === AbstractComponent).toBe(true);
+      console.log("suppppper ", _super)
+      _super = _super(this, {});
+      expect(_super == AbstractComponent).toBe(true);
     };
 
     comp = component(constructor);
-    const inst = new comp();
+    const inst = new comp({});
   });
 
   it("should be passed some parametres", function() {
@@ -42,6 +44,7 @@ describe("component wrapper", function() {
 
     comp = component(constructor,
       function (_proto) {
+        console.log("proto", _proto);
         _proto.method1 = method1;
       });
 

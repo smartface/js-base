@@ -19,7 +19,7 @@ const addChild = function(component){
   };
 };
 
-const AbstractComponent = function(view, name, initialState) {
+function AbstractComponent(view, name, initialState) {
   if(!view){
     throw new Error("Component View must not be undefined");
   }

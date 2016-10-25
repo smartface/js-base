@@ -11,25 +11,60 @@
 //
 // return _concrete;
 
-function bind(context) {
-    var self = this;
-    return function() {
-        self.apply(context, arguments);
-    }
-}
+    // if(typeof _super._map === "function"){
+    //   _super._map(function(self, parent){
+    //     f.prototype = Object.create(self.prototype);
+    //   });
+    // } else {
+    //   f.prototype = Object.create(_super.prototype);
+    // }
+    
+    // const bounded = f.bind(null, _super);
+    // bounded._map = function(cb){
+    //   return cb(f, _super);
+    // }
+    // return bounded;
+
 
 // return concrete class composer
 const extend = function (_super) {
   return function (f, addMethods) {
-    f.prototype = _super.prototype;
+    if(_super.__map__)
+      _super.__map__(function(fn){
+        f.prototype = Object.create(fn.prototype);
+      });
+    else
+      f.prototype = Object.create(_super.prototype);
     
-    if(addMethods){
+    if(addMethods) {
       addMethods(f.prototype);
     }
     
-    const bound = f.bind(null, _super)
-    bound.prototype = f.prototype;
-    return bound;
+    
+    // original super class constructor
+    const __origfn__ = function(_super){
+      return function (scope){
+        //converts arguments array 
+        const args = Array.prototype.slice.call(arguments, 1);
+        
+        // creates super constructor chain for nested inheritance
+        if(_super.__origfn__){
+          args = [_super.__origfn__].concat(args);
+        }
+        _super.apply(scope, args);
+        return _super;
+      };
+    };
+    
+    // bounded child class definition
+    return (function(bounded){
+      bounded.__map__ = function(fn){
+        fn(f);
+      };
+      
+      bounded.__origfn__ = __origfn__(_super);
+      return bounded;
+    })(f.bind(null, __origfn__(_super)));
   };
 };
 

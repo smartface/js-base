@@ -6,7 +6,7 @@ const component = require("../component/component").component;
  * @param param
  */
 const constructor = function (_super, view) {
-  _super.call(
+  _super(
     this,
     view,
     {

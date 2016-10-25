@@ -14,27 +14,31 @@ describe("AbstractPage", function() {
 
   function addMethods(_proto) {
     
-    // _proto.click = function () {
-    //   if(this.onEvent){
-    //     this.onEvent("click");
-    //   }
+    _proto.click = function () {
+      if(this.onEvent){
+        this.onEvent("click");
+      }
 
-    //   return "click";
-    // };
+      return "click";
+    };
   };
 
   beforeEach(function () {
-    constructor = function (_super) {
-      _super.call(this, {
+    constructor = function (_super, view) {
+      _super(this, 
+      view
+      , {
         onEnter: ""
       });
     };
   });
 
   it("should be extended", function () {
-    /** @type {AbstractComponent} */
-    const page = extend(AbstractPage)(constructor, addMethods);
-    page = new page();
+    /** @type {AbstractPage} */
+    const _page = extend(AbstractPage)(constructor, addMethods);
+    const page = new _page({onTouch:function(){}});
+    
+    expect(page instanceof AbstractComponent).toBe(true);
     expect(page instanceof AbstractPage).toBe(true);
   });
 });
