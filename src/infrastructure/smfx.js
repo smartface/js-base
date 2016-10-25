@@ -1,7 +1,8 @@
 /**
  * Created by smartface on 10/20/16.
  */
-const Rx = require("rx");
+ 
+const Rx = require("../index").rx;
 const Page = ["onControlRemoved", "onControlAdded", "onKeyPressed", "onClose", "onShow", "onOrientationChanged"];
 var _observable = Rx.Observable;
 
@@ -18,11 +19,11 @@ SMFx.fromCallback = function (callback) {
     .create(function (observer) {
       callback = function (e) {
         observer.onNext(e);
-      }
+      };
 
       return function () {
         callback = null;
-      }
+      };
     });
   return c.shareReplay(1);
 };

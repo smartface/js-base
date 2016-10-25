@@ -10,21 +10,28 @@ const streamContainer = function (target) {
     } catch (e) {
       throw e;
     }
-  }
+  };
+};
+
+const addChild = function(component){
+  return function(f){
+    f(component);
+  };
 };
 
 const AbstractComponent = function(view, name, initialState) {
   if(!view){
     throw new Error("Component View must not be undefined");
   }
-
+  
   this._viewProxy     = new Proxy(view);
   this._changeState   = stateContainer(initialState, this.changeStateHandlder);
   this.getEventStream = streamContainer(this);
+  this.addChild       = addChild(view);
 
   this.getName = function () {
     return name;
-  }
+  };
 };
 
 AbstractComponent.Events = {
@@ -32,16 +39,18 @@ AbstractComponent.Events = {
 };
 
 AbstractComponent.prototype.add = function(child) {
-  try {
-    if (child instanceof AbstractComponent) {
-      this._view.add(child._view);
-    } else {
-      this._view.add(child);
+  this.addChild(function(parent){
+    try {
+      if (child instanceof AbstractComponent) {
+        parent.add(child._view);
+      } else {
+        parent.add(child);
+      }
+    } catch(e) {
+      e.message = "[AbstractComponent.add]"+e.message;
+      throw e;
     }
-  } catch(e) {
-    e.message = "[AbstractComponent.add]"+e.message;
-    throw e;
-  }
+  });
 };
 
 AbstractComponent.prototype.set = function (prop, value) {

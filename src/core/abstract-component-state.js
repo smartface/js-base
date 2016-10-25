@@ -8,8 +8,8 @@ const stateContainer = function (initialState, onChange) {
 
     return function (f) {
       f(Object.assign({}, state));
-    }
-  }
+    };
+  };
 };
 
 const AbstractComponentState = function (initialState) {

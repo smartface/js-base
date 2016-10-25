@@ -7,7 +7,6 @@ const AbstractComponent = require("../core/abstract-component");
 const SMFx = require("../infrastructure/smfx");
 
 const SMFMockUIComponent  = function () {
-  // SMFx.of();
 };
 
 const MockAbstractComponent = function () {
