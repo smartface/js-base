@@ -1,9 +1,9 @@
 npm test
 rm -rf ../scripts/libs/js-base/
 
-mkdir ../scripts/libs/js-base/ 2>> /dev/null
-mkdir ../scripts/libs/js-base/rx 2>> /dev/null
-mkdir ../scripts/libs/js-base/rx/dist 2>> /dev/null
+mkdir -p ../scripts/libs/js-base/ 2>> /dev/null
+mkdir -p ../scripts/libs/js-base/rx 2>> /dev/null
+mkdir -p ../scripts/libs/js-base/rx/dist 2>> /dev/null
 
 folders=`find ./src -mindepth 1 -type d -exec basename {} \;`
 for folder in $folders

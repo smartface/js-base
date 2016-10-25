@@ -1,18 +1,22 @@
 const AbstractComponent = require("./abstract-component.js");
-
+const extend = require("./extend")
 /**
  * Page Abstraction Class
  *
- * @version 1.0.0
+ * @version 1.1.0
  * @param params Page Control Params
  * @constructor
  */
-var AbstractPage = function(params) {
-  AbstractComponent.call(this);
-  this._view = new SMF.UI.Page(params);
+const constructor = function(_super, params) {
+  const view = new SMF.UI.Page(params);
+  _super.call(this, view);
+  
+  this._view = view;
 };
 
-PageBase.prototype = Object.create(AbstractComponent.prototype);
+var AbstractPage = extend(AbstractComponent)(constructor);
+
+/*PageBase.prototype = Object.create(AbstractComponent.prototype);
 
 PageBase.prototype.getBackgroundImage = function() {
   return this._view.backgroundImage;
@@ -60,6 +64,6 @@ PageBase.prototype.show = function(
 
 PageBase.prototype.setFillColor = function(color) {};
 
-PageBase.prototype.setGestures = function() {};
+PageBase.prototype.setGestures = function() {};*/
 
-module.exports = PageBase;
+module.exports = AbstractPage;
