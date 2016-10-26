@@ -3,7 +3,7 @@ const extend = require("./extend")
 /**
  * Page Abstraction Class
  *
- * @version 1.1.0
+ * @version 1.1.1
  * @param params Page Control Params
  * @constructor
  */
@@ -17,27 +17,6 @@ function AbstractPage(_super, view) {
 module.exports = extend(AbstractComponent)(
   AbstractPage, 
   function(_proto){
-    console.log("AbstractPage", _proto);
-    _proto.show = function(
-        motionEase
-      , transitionEffect
-      , transitionEffectType
-      , fade
-      , reset
-      , duration
-      ) {
-      
-      // converts function arguments to array
-      var args = Array
-        .prototype
-        .slice
-        .call(arguments);
-        
-      // this
-      //   ._view
-      //   .show
-      //   .apply(this._view, args);
-    };
   }
 );
 

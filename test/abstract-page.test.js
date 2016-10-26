@@ -39,7 +39,7 @@ describe("AbstractPage", function() {
     const view = {onTouch:function(){}};
     const page = new _page(view);
     
-    expect(typeof page.show === 'function').toBe(true);
+    expect(typeof page._view.onTouch === 'function').toBe(true);
     expect(page instanceof AbstractComponent).toBe(true);
     expect(page instanceof AbstractPage).toBe(true);
   });
