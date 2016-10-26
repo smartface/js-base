@@ -35,7 +35,7 @@ const extend = function (_super) {
       _super.__map__(function(fn){
         // if _super is bounded function, extract original function
         __super = fn;
-\        f.prototype = Object.create(fn.prototype);
+        f.prototype = Object.create(fn.prototype);
       });
     } else {
       __super = _super;
