@@ -8,18 +8,39 @@ const extend = require("./extend")
  * @constructor
  */
 function AbstractPage(_super, view) {
+  console.log("_super");
   _super(this, view);
   this._view = view;
+  // if(typeof alert !== "undefined")
 };
 
 module.exports = extend(AbstractComponent)(
   AbstractPage, 
   function(_proto){
-    _proto.show = function(){
+    console.log("AbstractPage", _proto);
+    _proto.show = function(
+        motionEase
+      , transitionEffect
+      , transitionEffectType
+      , fade
+      , reset
+      , duration
+      ) {
       
-    }
+      // converts function arguments to array
+      var args = Array
+        .prototype
+        .slice
+        .call(arguments);
+        
+      // this
+      //   ._view
+      //   .show
+      //   .apply(this._view, args);
+    };
   }
 );
+
 
 /*PageBase.prototype = Object.create(AbstractComponent.prototype);
 

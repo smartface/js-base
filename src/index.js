@@ -1,5 +1,5 @@
-const Rx = require("rx");
-
 module.exports = {
-    rx: Rx
+    rx: require("rx"),
+    jasmine: require('jasmine'),
+    jasmine_reporters: require("jasmine-reporters")
 };

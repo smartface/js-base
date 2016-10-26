@@ -29,30 +29,40 @@
 // return concrete class composer
 const extend = function (_super) {
   return function (f, addMethods) {
-    if(_super.__map__)
+    var __super = _super;
+    
+    if(_super.__map__){
       _super.__map__(function(fn){
-        f.prototype = Object.create(fn.prototype);
+        // if _super is bounded function, extract original function
+        __super = fn;
+\        f.prototype = Object.create(fn.prototype);
       });
-    else
+    } else {
+      __super = _super;
       f.prototype = Object.create(_super.prototype);
+    }
     
     if(addMethods) {
       addMethods(f.prototype);
     }
-    
-    
+
     // original super class constructor
     const __origfn__ = function(_super){
-      return function (scope){
-        //converts arguments array 
-        const args = Array.prototype.slice.call(arguments, 1);
+      return function (_scope){
+        //converts arguments array
+        var args = Array.prototype.slice.call(arguments, 1);
+        if(_scope == global){
+          throw new Error("invalid scope: Global.");
+        }
         
         // creates super constructor chain for nested inheritance
         if(_super.__origfn__){
           args = [_super.__origfn__].concat(args);
         }
-        _super.apply(scope, args);
-        return _super;
+        
+        // call super constructure, with concrete scope
+        __super.apply(_scope, args);
+        return __super;
       };
     };
     

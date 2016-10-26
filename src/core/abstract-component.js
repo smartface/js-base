@@ -20,6 +20,8 @@ const addChild = function(component){
 };
 
 function AbstractComponent(view, name, initialState) {
+  console.log("AbstractComponent", view);
+  
   if(!view){
     throw new Error("Component View must not be undefined");
   }
@@ -28,6 +30,7 @@ function AbstractComponent(view, name, initialState) {
   this._changeState   = stateContainer(initialState, this.changeStateHandlder);
   this.getEventStream = streamContainer(this);
   this.addChild       = addChild(view);
+  this._view = view;
 
   this.getName = function () {
     return name;

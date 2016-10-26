@@ -20,7 +20,6 @@ describe("component wrapper", function() {
 
   it("should be injected from super constructor", function() {
     var constructor = function (_super) {
-      console.log("suppppper ", _super)
       _super = _super(this, {});
       expect(_super == AbstractComponent).toBe(true);
     };

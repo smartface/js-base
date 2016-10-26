@@ -33,12 +33,26 @@ describe("AbstractPage", function() {
     };
   });
 
-  it("should be extended", function () {
+  it("should be extended from AbstractComponent", function () {
     /** @type {AbstractPage} */
     const _page = extend(AbstractPage)(constructor, addMethods);
-    const page = new _page({onTouch:function(){}});
+    const view = {onTouch:function(){}};
+    const page = new _page(view);
     
+    expect(typeof page.show === 'function').toBe(true);
     expect(page instanceof AbstractComponent).toBe(true);
     expect(page instanceof AbstractPage).toBe(true);
   });
+  
+  it("should be able to inject view to super class", function () {
+    /** @type {AbstractPage} */
+    const _page = extend(AbstractPage)(function(_super, view){
+      console.log("this", this, view);
+      _super(this, view);
+    }, addMethods);
+    const view = {onTouch:function(){}};
+    const page = new _page(view);
+    
+    expect(page._view === view).toBe(true);
+  });  
 });

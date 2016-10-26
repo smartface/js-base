@@ -1,8 +1,8 @@
 /**
  * Created by smartface on 10/18/16.
  */
-var Jasmine = require('jasmine');
-var jasmineReporters = require('jasmine-reporters');
+var Jasmine = require('./src/index').jasmine;
+var jasmineReporters = require('./src/index').jasmine_reporters;
 
 var jrunner = new Jasmine();
 jrunner.configureDefaultReporter({print: "noop"});    // jasmine < 2.4.1, remove default reporter logs
