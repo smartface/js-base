@@ -21,6 +21,7 @@ describe("AbstractPage", function() {
 
       return "click";
     };
+    _proto.stateChangedHandlder = function(state){};  
   };
 
   beforeEach(function () {

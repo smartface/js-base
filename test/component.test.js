@@ -7,10 +7,14 @@ describe("component wrapper", function() {
   var constructor = function (_super, param1, param2) {
     var view = {};
     _super(this, view);
+    this.stateChangedHandlder = function(state){};
   };
 
   beforeEach(function() {
-    comp = component(constructor);
+    comp = component(constructor, function(_proto) {
+      _proto.stateChangedHandlder = function(state){};  
+    });
+
   });
 
   it("should return constructor extends from AbstractComponent", function() {
@@ -22,9 +26,13 @@ describe("component wrapper", function() {
     var constructor = function (_super) {
       _super = _super(this, {});
       expect(_super == AbstractComponent).toBe(true);
+      
     };
 
-    comp = component(constructor);
+    comp = component(constructor, function(_proto) {
+      _proto.stateChangedHandlder = function(state){};  
+    });
+    
     const inst = new comp({});
   });
 
@@ -33,7 +41,10 @@ describe("component wrapper", function() {
       expect(param1).toBe("param1");
     };
 
-    comp = component(constructor);
+    comp = component(constructor, function(_proto) {
+      _proto.stateChangedHandlder = function(state){};  
+    });
+
     const inst = new comp("param1");
   });
 
@@ -45,6 +56,7 @@ describe("component wrapper", function() {
       function (_proto) {
         console.log("proto", _proto);
         _proto.method1 = method1;
+        _proto.stateChangedHandlder = function(state){};
       });
 
     const inst = new comp("param1", "param2");

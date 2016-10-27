@@ -22,7 +22,7 @@ CheckBox.prototype.toggle = function () {
   this._changeState({checked: !state.checked});
 };
 
-CheckBox.prototype.changeStateHandlder = function (state) {
+CheckBox.prototype.stateChangedHandlder = function (state) {
   alert("state"+state);
   // return f();
 };

@@ -33,6 +33,8 @@ describe("AbstractComponent", function() {
 
       return "click";
     };
+    
+    _proto.stateChangedHandlder = function(state){};  
   };
 
   beforeEach(function () {

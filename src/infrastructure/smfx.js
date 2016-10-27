@@ -14,18 +14,17 @@ SMFx.map = function (f) {
   return _observable.map(f).shareReplay(1);
 };
 
-SMFx.fromCallback = function (callback) {
-  var c = Rx.Observable
+SMFx.fromCallback = function (target, event) {
+  return Rx.Observable
     .create(function (observer) {
-      callback = function (e) {
+      target[event] = function (e) {
         observer.onNext(e);
       };
 
       return function () {
-        callback = null;
+        target[event] = null;
       };
     });
-  return c.shareReplay(1);
 };
 
 SMFx.subscribe = function (f, error, complete) {

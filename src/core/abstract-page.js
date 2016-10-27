@@ -8,7 +8,6 @@ const extend = require("./extend")
  * @constructor
  */
 function AbstractPage(_super, view) {
-  console.log("_super");
   _super(this, view);
   this._view = view;
   // if(typeof alert !== "undefined")
