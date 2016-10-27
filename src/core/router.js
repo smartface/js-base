@@ -164,8 +164,8 @@ Router.go = function(path, params) {
 
     this.__history
       .push({
-        path, 
-        params,
+        path: path, 
+        params: params,
         instance: route.instance
       });
 
