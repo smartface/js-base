@@ -1,27 +1,27 @@
 npm test
-rm -rf ../scripts/libs/js-base/
+rm -rf ../scripts/node_modules
 
-mkdir -p ../scripts/libs/js-base/ 2>> /dev/null
-mkdir -p ../scripts/libs/js-base/vendors/rx 2>> /dev/null
-mkdir -p ../scripts/libs/js-base/vendors/rx/dist 2>> /dev/null
+mkdir -p ../scripts/node_modules/js-base/ 2>> /dev/null
+# mkdir -p ../scripts/node_modules/rx 2>> /dev/null
+mkdir -p ../scripts/node_modules/rx/dist 2>> /dev/null
 
-mkdir -p ../scripts/libs/js-base/vendors/jasmine-reporters 2>> /dev/null
-mkdir -p ../scripts/libs/js-base/vendors/jasmine-reporters/src 2>> /dev/null
-mkdir -p ../scripts/libs/js-base/vendors/babel-polyfill 2>> /dev/null
+# mkdir -p ../scripts/node_modules/jasmine-reporters 2>> /dev/null
+mkdir -p ../scripts/node_modules/jasmine-reporters/src 2>> /dev/null
+mkdir -p ../scripts/node_modules/babel-polyfill 2>> /dev/null
 
-cp -rf ./node_modules/jasmine-reporters/src ../scripts/libs/js-base/vendors/jasmine-reporters
-cp -rf ./node_modules/jasmine-reporters/index.js ../scripts/libs/js-base/vendors/jasmine-reporters
-cp -rf ./node_modules/jasmine ../scripts/libs/js-base/vendors/
-cp -rf ./node_modules/babel-polyfill/dist ../scripts/libs/js-base/vendors/babel-polyfill
+cp -rf ./node_modules/jasmine-reporters/src ../scripts/node_modules/jasmine-reporters
+cp -rf ./node_modules/jasmine-reporters/index.js ../scripts/node_modules/jasmine-reporters
+# cp -rf ./node_modules/jasmine ../scripts/node_modules/js-base/vendors/
+cp -rf ./node_modules/babel-polyfill/dist ../scripts/node_modules/babel-polyfill
+cp -rf ./package.json ../scripts/package.json
+cp -rf ./node_modules/rx/package.json ../scripts/node_modules/rx/package.json
 
 folders=`find ./src -mindepth 1 -type d -exec basename {} \;`
 for folder in $folders
 do
     # mkdir -p "../scripts/libs/js-base/$file"
-    cp -rf "./src/$folder" "../scripts/libs/js-base/"
+    cp -rf "./src/$folder" "../scripts/node_modules/js-base/"
 done
-
-cp -rf ./src/index.dev.js ../scripts/libs/js-base/index.js
 
 node_modules="./node_modules"
 rx="$node_modules/rx";
@@ -31,7 +31,7 @@ rx_files="/index $rx_files"
 for file in $rx_files
 do
     # echo "$rx$file.js"
-    copy="$(cp -rf "$rx$file.js" ../scripts/libs/js-base/vendors/rx$file.js)"
+    copy="$(cp -rf "$rx$file.js" ../scripts/node_modules/rx$file.js)"
     $copy
 done
 # echo "$str"

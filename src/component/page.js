@@ -10,7 +10,7 @@ const Page = extend(AbstractPage)(
 	//Page Public Methods
 	function(_proto){
 		_proto.show = function(){
-			this._view.show();
+			this._view.show.apply(this._view, arguments);
 		};
 	});
 

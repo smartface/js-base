@@ -34,7 +34,7 @@ function AbstractComponent(view, name, initialState) {
     this.stateChangedHandlder(state);
   }
   
-  this.viewProxy     = new Proxy(view);
+  this.viewProxy = new Proxy(view);
   
   this._changeState   = function(container, state){
     stateChanged.call(this, container(state));
@@ -49,8 +49,8 @@ function AbstractComponent(view, name, initialState) {
     }
   }(streamContainer(view));
   
-  this.addChild       = addChild(view);
-  this._view          = view;
+  this.addChild = addChild(view);
+  this._view    = view;
 
   this.getName = function () {
     return name;

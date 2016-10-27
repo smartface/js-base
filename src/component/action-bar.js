@@ -1,4 +1,5 @@
-const SMFConsole = require('./../core/log.js');
+const SMFConsole = require('../core/log');
+const NullProperty = require("../core/null-property");
 
 /** @type {SMF.UI.iOS.NavigationBar | SMF.UI.Page.actionBar}*/
 const assignKeys = function(source, options, ignoreKey, hasKeyThenReload) {
