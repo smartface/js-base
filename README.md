@@ -24,6 +24,7 @@ const extend = require("js-base/core/extend");
 const UIComponent = require("js-base/component/ui-component");
 
 const CheckBoxButton = extend(UIComponent)(
+    // Component constructor
 	function(_super, text){
 		_super(this, 
 			{
@@ -76,6 +77,7 @@ const CheckBoxButton = extend(UIComponent)(
 				changeState(({checked: !e.state.checked}));
 			})
 	},
+	// Component public methods
 	function(_proto){
     _proto.stateChangedHandlder = function(state){
 			this.checkedRect.alpha = state.checked? 1:0;
