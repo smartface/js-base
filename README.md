@@ -7,12 +7,15 @@
     -----------------------------------------------------------------
 
 # Smartface Javascript SDK Core
-For development on smartface cloud ide, please use [https://github.com/smartface/smartface-core-workspace](https://github.com/smartface/smartface-core-workspace)
+For development on smartface cloud ide, please use instructions of [https://github.com/smartface/smartface-core-workspace](https://github.com/smartface/smartface-core-workspace)
 
+# What is the Core
+Our core sdk for Component Oriented Application development.
+
+# Structure
 
 
 ## Support & Documentation & Useful Links
-
 Guides: https://www.smartface.io/guides
 API Docs: https://docs.smartface.io
 Smartface Cloud Dashboard: https://cloud.smartface.io 

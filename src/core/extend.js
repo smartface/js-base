@@ -1,32 +1,11 @@
+
+
 /**
- * Created by smartface on 10/19/16.
+ * Extend is the inheritance tool to create components, pages etc.
+ * 
+ * @verison 1.0.0
+ * @params {function} _super Super class constructor which is interited by concrete class
  */
-// const _concrete = function () {
-//   f.call(this);
-//   _super.apply(this, arguments);
-// };
-//
-// _concrete.prototype = Object.create(f.prototype);
-// f.prototype = Object.create(_super.prototype);
-//
-// return _concrete;
-
-    // if(typeof _super._map === "function"){
-    //   _super._map(function(self, parent){
-    //     f.prototype = Object.create(self.prototype);
-    //   });
-    // } else {
-    //   f.prototype = Object.create(_super.prototype);
-    // }
-    
-    // const bounded = f.bind(null, _super);
-    // bounded._map = function(cb){
-    //   return cb(f, _super);
-    // }
-    // return bounded;
-
-
-// return concrete class composer
 const extend = function (_super) {
   return function (f, addMethods) {
     var __super = _super;
@@ -42,7 +21,9 @@ const extend = function (_super) {
       f.prototype = Object.create(_super.prototype);
     }
     
+    // If exists user public methods helper
     if(addMethods) {
+      // add methods to current class
       addMethods(f.prototype);
     }
 

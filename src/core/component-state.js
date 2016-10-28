@@ -9,16 +9,4 @@ const stateContainer = function (initialState, onChange) {
   };
 };
 
-// const AbstractComponentState = function (initialState) {
-//   const state = stateContainer(initialState);
-
-//   this.map = function (f) {
-//     state(f);
-//   };
-// };
-
-// AbstractComponentState.prototype.stateChangedHandlder = function(state) {
-//   throw new Error("Abstract changeStateHandler method must overriden");
-// };
-
 module.exports = stateContainer;
