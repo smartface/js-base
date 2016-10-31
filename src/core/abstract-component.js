@@ -36,6 +36,14 @@ function AbstractComponent(view, name, initialState) {
   
   this.viewProxy = new Proxy(view);
   
+  this._dispatchEvent = function(event){
+    return function(eventObj){
+      if(typeof this[event] === "function"){
+        this[event](eventObj);
+      }
+    }
+  }
+  
   this._changeState   = function(container, state){
     stateChanged.call(this, container(state));
   }.bind(this, stateContainer(initialState))
