@@ -31,7 +31,9 @@ const newCompContainer = extend(
 ```
 
 
-Then you can create new component instance that use component container. First parameter is the constructor of the new component. Super class constructor is injected to component constructor by extend. Then you must pass component scope to super class constructor first and second parameter is the [SMF.UI.Container](http://docs.smartface.io/?topic=html/AllMembers_T_SMF_UI_NavigationBar.htm#!/api/SMF.UI.Container) properties. Third is the unique name of component is not required. And last parameter is the initialState of concrete component. State saves behaviours of components and when state is changed then component must be changed.
+Then you can create new component instance that use component container. First parameter is the constructor of the new component. Super class constructor is injected to component constructor by extend. 
+
+You must pass component scope to super class constructor first and second parameter is the [SMF.UI.Container](http://docs.smartface.io/?topic=html/AllMembers_T_SMF_UI_NavigationBar.htm#!/api/SMF.UI.Container) properties. Third is the unique name of component is not required. And last parameter is the initialState of concrete component. State is to save behaviours of components and when state is changed then component must be changed.
 
 ```js 
 const concreteComp = newComponentContainer(
@@ -113,7 +115,7 @@ const concreteComp = newComponentContainer(
 	)
 ```
 
-State can only be changed via inherited this._changeState() method of component. 
+State can only be changed via this._changeState() which is inherited method of UIComponent.
 
 ```js
 	...
