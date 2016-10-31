@@ -1,7 +1,5 @@
 const SMFx = require("../infrastructure/smfx");
-
 const Proxy = require("./proxy");
-const stateContainer = require("../core/component-state");
 
 const streamContainer = function (target) {
   return function (eventName) {
@@ -25,37 +23,69 @@ function AbstractComponent(view, name, initialState) {
   }
   
   name = name || "";
-  this.state = initialState || {};
+  const state = initialState || {};
   
   var self = this;
 
-  function stateChanged(state){
-    this.state = state;
-    this.stateChangedHandlder(state);
-  }
+  const stateChanged = (_state) => {
+    state = _state;
+    this.stateChangedHandlder(this.getState());
+  };
   
-  this.viewProxy = new Proxy(view);
+  this._viewProxy = new Proxy(view);
   
-  this._dispatchEvent = function(event){
-    return function(eventObj){
-      if(typeof this[event] === "function"){
+  this._dispatchEvent = (event) => {
+    return (eventObj) => {
+      if(typeof streams[event] === "function"){
         this[event](eventObj);
       }
-    }
-  }
+    };
+  };
   
-  this._changeState   = function(container, state){
-    stateChanged.call(this, container(state));
-  }.bind(this, stateContainer(initialState))
+  this._changeState = function(update){
+    Object.assign(state, update);
+    stateChanged.call(this, this.getState());
+  }.bind(this);
+
+  const streams = {};
   
-  this.getEventStream = function(streamComposer){
-    return function(eventName){
-      return streamComposer(eventName).map(function(e){
-        e.state = self.state;
-        return e;
-      }).shareReplay(1);
-    }
-  }(streamContainer(view));
+  /**
+   * Event subcriptions
+   * 
+   * @returns {Observable}
+   *
+   */
+  this.getEventStream = () => {
+    const callbacks = streamContainer(view);
+    const events = streamContainer(this);
+    
+    return (eventName) => {
+      if(typeof streams[eventName] === "undefined"){
+        streams[eventName] = eventName.indexOf("on") == 0 ? 
+          callbacks(eventName).map((e) => {
+            e = e || {};
+            e.state = state;
+            e.type = eventName;
+            return e;
+          })
+          :
+          events(eventName).map((e) => {
+            e = e || {};
+            e.type = eventName;
+            e.state = state;
+            return e;
+          });
+      }
+
+      return streams[eventName];
+    };
+  }();
+  
+  this.dispose = function(){
+    Object.keys(streams).forEach(function(key){
+      delete streams[key];
+    });
+  };
   
   this.addChild = addChild(view);
   this._view    = view;
@@ -63,6 +93,10 @@ function AbstractComponent(view, name, initialState) {
   this.getName = function () {
     return name;
   };
+  
+  this.getState = function(){
+    return Object.assign({}, state);
+  }
 };
 
 AbstractComponent.Events = {

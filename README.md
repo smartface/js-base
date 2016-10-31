@@ -33,7 +33,7 @@ const newCompContainer = extend(
 
 Then you can create new component instance via component container. First parameter is the constructor of the new component. Super class constructor is injected to component constructor by extend. 
 
-You must pass component scope to super class constructor first and second parameter is the [SMF.UI.Container](http://docs.smartface.io/?topic=html/AllMembers_T_SMF_UI_NavigationBar.htm#!/api/SMF.UI.Container) properties. Third is the unique name of component is not required. And last parameter is the initialState of concrete component. State is to save behaviours of components and when state is changed then component must be changed.
+You must pass component scope to super class constructor first and Second parameter public methods is the [SMF.UI.Container](http://docs.smartface.io/?topic=html/AllMembers_T_SMF_UI_NavigationBar.htm#!/api/SMF.UI.Container) properties. Third is the unique name of component is not required. And last parameter is the initialState of concrete component. State is to save behaviours of components and when state is changed then component must be changed.
 
 ```js 
 const concreteComp = newComponentContainer(
@@ -61,18 +61,18 @@ function(_superConstructor, customParam){
 			count: 0
 		}
 	), 
-	// Second parameter
+	// Second parameter public methods
 	...
 	
 )
 ```
 
-Second parameter of call is to define public methods to concrete component.
+Second parameter public methods of call is to define public methods to concrete component.
 
 ```js
 	...
 	), 
-	// Second parameter
+	// Second parameter public methods
 	function(_public){
 		_public.addtoCount = function(num){
 			this._changeState({
@@ -120,7 +120,7 @@ const concreteComp = ComponentContainer(
 			}
 		)
 	}, 
-	// Second parameter
+	// Second parameter public methods
 	function(_public){
 		_public.addtoCount = function(num){
 			// inherited from UIComponent
@@ -164,7 +164,7 @@ And when state is changed by any interaction then triggered **stateChangedHandle
 		this.label.font.size = 26;
 		this.add(this.label);
 	},
-	// Second parameter
+	// Second parameter public methods
 	function(_public){
 		_public.addtoCount = function(num){
 			// inherited from UIComponent
@@ -248,7 +248,7 @@ Fired when a child control (for each control) is removed (Fired after remove) ..
 You can also dispatch custom events:
 ```js
 	...
-	// Second parameter
+	// Second parameter public methods
 	function(_public){
 		_public.addtoCount = function(num){
 			...

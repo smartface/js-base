@@ -40,7 +40,8 @@ describe("AbstractComponent", function() {
   beforeEach(function () {
     concrete = function (_super) {
       _super(this, {
-        onEnter: ""
+        onEnter: "",
+        onEvent: ""
       });
     };
   });
@@ -62,19 +63,38 @@ describe("AbstractComponent", function() {
     expect(typeof comp.click === "function").toBe(true);
   });
 
-  it("should stream component events", function () {
+  it("should be able to externally subscribe to component's view callbacks", function () {
     /** @type {AbstractComponent} */
     var comp = component(concrete, addMethods);
-    comp = new comp({});
+    comp = new comp();
 
     comp
       .getEventStream("onEvent")
-      // .subscribe(function (e) {
-      //   console.log(e);
-      //   expect(e == 'click').toBe(true);
-      // });
-
-    // comp.click();
-    // expect('click').toBe(true);
-  })
+      .subscribe(function (e) {
+        expect(e.type == 'onEvent').toBe(true);
+      });
+      
+      comp.get("onEvent")();
+  });
+  
+  it("should be able to externally subscribe to custom component events", function (done) {
+    /** @type {AbstractComponent} */
+    var comp = component(function(_super) {
+      _super(this, {
+        onEnter: ""
+      });
+      
+      setTimeout(() => {
+        this.event();
+      }, 500);
+    }, function(_proto) {
+      _proto.event = null;
+    });
+    
+    comp = new comp();
+    comp.getEventStream("event").subscribe((e) => {
+      expect(e.type === "event").toBe(true);
+      done();
+    });
+  });
 });
