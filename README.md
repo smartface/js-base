@@ -37,7 +37,12 @@ You must pass component scope to super class constructor first and second parame
 
 ```js 
 const concreteComp = newComponentContainer(
-// Component constructor
+/**
+ * concreteComp constructor
+ * 
+ * @param _superConstructor Super class constructor
+ * @param customParam Custom param of the component
+ */
 function(_superConstructor){
 	_superConstructor(
 		/// pass component scope to super
@@ -91,7 +96,8 @@ As conventionally, component's state cannot be changed externally and uses props
  */
 const concreteComp = ComponentContainer(
 	/**
-	 * Component constructor
+	 * concreteComp constructor
+	 * 
 	 * @param _superConstructor Super class constructor
 	 * @param customParam Custom param of the component
 	 */
@@ -140,8 +146,13 @@ And when state is changed by any interaction then triggered **stateChangedHandle
 
 ```js
 	...
-	// Component constructor
-	function(_superConstructor){
+	/**
+	 * concreteComp constructor
+	 * 
+	 * @param _superConstructor Super class constructor
+	 * @param customParam Custom param of the component
+	 */
+	function(_superConstructor, customParam){
 		...
 		
 		this.label = new SMF.UI.Label({
@@ -173,6 +184,7 @@ And when state is changed by any interaction then triggered **stateChangedHandle
 ```
 
 And you can subscribe any event of SMF.UI.Container of the component, internal or externally. Injects event object to subscription function with event type and component state.
+##### SMF.UI.Container events
 - onControlAdd
 Fired when a child control (for each control) is added (Fired after added) ...
 - onControlRemoved
@@ -184,8 +196,13 @@ Fired when a child control (for each control) is removed (Fired after remove) ..
 
 ```js
 	...
-	// Component constructor
-	function(_superConstructor){
+	/**
+	 * concreteComp constructor
+	 * 
+	 * @param _superConstructor Super class constructor
+	 * @param customParam Custom param of the component
+	 */
+	function(_superConstructor, customParam){
 		...
 		
 		// Subscription to onTouch callback of SMF.UI.Container of the component
