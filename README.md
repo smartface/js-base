@@ -162,7 +162,7 @@ And when state is changed by any interaction then triggered **stateChangedHandle
 
 ```
 
-And you can subscribe any event of SMF.UI.Container of component internal or externally.
+And you can subscribe any event of SMF.UI.Container of component, internal or externally.
 - onControlAdd( e )
 Fired when a child control (for each control) is added (Fired after added) ...
 - onControlRemoved( e )
@@ -219,7 +219,7 @@ Fired when a child control (for each control) is removed (Fired after remove) ..
 ```
 
 
-#### For example : 
+#### Another example : 
 ```js
 const extend = require("js-base/core/extend");
 const UIComponent = require("js-base/component/ui-component");
