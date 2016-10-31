@@ -18,7 +18,7 @@ Our core sdk for Component Oriented Application development.
 **/js-base/core/extend** inheritance container is to use creating components, pages or custom.
 
 #### Usage
-Pass as a parameter super class of component using /js-base/component/uicomponent for first call and returns inherintance container for the new components. Then you can create an instance of new component. UIComponent is creates instance of [SMF.UI.Container](http://docs.smartface.io/?topic=html/AllMembers_T_SMF_UI_NavigationBar.htm#!/api/SMF.UI.Container) and adds child component to.
+Pass **/js-base/component/uicomponent** as super class parameter for the first call then "extend" returns inherintance container for the new components. So that you can create an instance of new components which are inherited from UIComponent. UIComponent is creates instance of [SMF.UI.Container](http://docs.smartface.io/?topic=html/AllMembers_T_SMF_UI_NavigationBar.htm#!/api/SMF.UI.Container) and adds child component to.
 
 ```js
 const extend = require("/js-base/core/extend");
