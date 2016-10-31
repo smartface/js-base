@@ -162,15 +162,15 @@ And when state is changed by any interaction then triggered **stateChangedHandle
 
 ```
 
-And you can subscribe any event of SMF.UI.Container of component, internal or externally.
-- onControlAdd( e )
+And you can subscribe any event of SMF.UI.Container of the component, internal or externally. Injects event object to subscription function with event type and component state.
+- onControlAdd
 Fired when a child control (for each control) is added (Fired after added) ...
-- onControlRemoved( e )
+- onControlRemoved
 Fired when a child control (for each control) is removed (Fired after remove) ...
-- onHide( e )
-- onShow( e )
-- onTouch( e )
-- onTouchEnded( e )
+- onHide
+- onShow
+- onTouch
+- onTouchEnded
 
 ```js
 	...
@@ -254,8 +254,8 @@ const CheckBoxButton = extend(UIComponent)(
 			width: 30,
 			top: 0,
 			left: 0,
-		  borderWidth: "1px",
-      borderColor: "#305E75",
+		  	borderWidth: "1px",
+		        borderColor: "#305E75",
 			height: 30
 		});
 		
