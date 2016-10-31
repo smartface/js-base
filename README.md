@@ -184,7 +184,8 @@ And when state is changed by any interaction then triggered **stateChangedHandle
 ```
 
 And you can subscribe any event of SMF.UI.Container of the component, internal or externally. Injects event object to subscription function with event type and component state.
-##### SMF.UI.Container events
+##### SMF.UI.Container event callbacks
+Callbacks is different from components' events. Callbacks are always start with "on" prefix. Callbacks are only used for SMF View Components like SMF.UI.Label, SMF.UI.Container and others. "on" prefix reserved usage of callbacks and you musn't use for component events.
 - onControlAdd
 Fired when a child control (for each control) is added (Fired after added) ...
 - onControlRemoved
@@ -245,14 +246,16 @@ Fired when a child control (for each control) is removed (Fired after remove) ..
 
 ```
 
-You can also dispatch custom events:
+You can also dispatch custom events. Conventionally events are ending with "Event" keyword and initially assigns empty function.
 ```js
 	...
 	// Second parameter public methods
 	function(_public){
+		_public.countChangedEvent = function(){}
 		_public.addtoCount = function(num){
 			...
-			this._dispatchEvent("customEvent")({type:"custom event type"});
+			// dispatches event stream
+			this.countChangedEvent();
 			...
 		}
 	}
