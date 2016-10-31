@@ -160,7 +160,15 @@ And when state is changed by any interaction then triggered **stateChangedHandle
 
 ```
 
-And when you can listen any event of component container 
+And you can subscribe any event of SMF.UI.Container of component internal or externally.
+onControlAdd( e )
+Fired when a child control (for each control) is added (Fired after added) ...
+onControlRemoved( e )
+Fired when a child control (for each control) is removed (Fired after remove) ...
+onHide( e )
+onShow( e )
+onTouch( e )
+onTouchEnded( e )
 
 ```js
 	...
@@ -172,10 +180,39 @@ And when you can listen any event of component container
 		// 
 		this.getEventStream("onTouch")
 			.subscribe(function(e){
-				changeState(({checked: !e.state.checked}));
-			})
+				this._changeState(({checked: !e.state.checked}));
+			}.bind(this))
 	},
 	...
+	
+	// or externally
+	
+	var comp = new concreteComp("custom param");
+	comp.getEventStream("onTouch")
+		.subscribe(function(e){
+			// do something
+		});
+		
+	comp.getEventStream("onTouchEnded")
+		.subscribe(function(e){
+			// do something
+		})		
+		
+	// or
+	const listener = function(e){
+		if(e.type == "onTouch"){
+			// do something
+		} else if(e.type == "onTouchEnded"){
+			// do another
+		}
+	}
+	
+	comp.getEventStream("onTouch")
+		.subscribe(listener);
+		
+	comp.getEventStream("onTouchEnded")
+		.subscribe(listener);
+		
 
 ```
 
