@@ -43,7 +43,7 @@ const concreteComp = newComponentContainer(
  * @param _superConstructor Super class constructor
  * @param customParam Custom param of the component
  */
-function(_superConstructor){
+function(_superConstructor, customParam){
 	_superConstructor(
 		/// pass component scope to super
 		this,
