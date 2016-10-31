@@ -1,3 +1,4 @@
+echo "=============> JsBase installation"
 npm test
 rm -rf ../scripts/node_modules
 
@@ -37,5 +38,4 @@ done
 # echo "$str"
 
 # cp "./node_modules/rx/" 
-echo "=============> JsBase installation"
 echo "=============> Completed!"
