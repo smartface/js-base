@@ -12,11 +12,52 @@ For development on smartface cloud ide, please use instructions of [https://gith
 ### What is the Core
 Our core sdk for Component Oriented Application development.
 
-### UIComponent Flow
-1. Create components inherit from /component/UIComponent via /core/extend.
-2. Pass Parameters to UIComponent constructor
-3. Define public methods into the /core/extend
-4. Add component to page or container components
+### Core Api
+#### Creating UIComponents
+
+**/js-base/core/extend** inheritance tool is to use creating components or page.
+
+##### Usage
+Pass as a parameter super class of component using /js-base/component/uicomponent for first call and returns inherintance container for the new components. Then you can create an instance of new component. UIComponent is creates instance of (SMF.UI.Container)[http://docs.smartface.io/?topic=html/AllMembers_T_SMF_UI_NavigationBar.htm#!/api/SMF.UI.Container] and adds child component to.
+
+```js
+const extend = require("/js-base/core/extend");
+const UIComponent = require("/js-base/component/uicomponent");
+
+// First call
+const newCompContainer = extend(
+  UIComponent
+);
+```
+
+// then you can create new component using component container
+// First parameter is the constructor of the new component. Super class constructor is injected to component constructor by extend. Then you must pass component scope to super class constructor as first then second parameter is the unique name of component is not required. And last parameter is the initialState of concrete component. State saves behaviours of components and when state is changed then component must be changed.
+
+```js 
+const concreteComp = newComponentContainer(
+// Component constructor
+function(_superConstructor){
+	_superConstructor(
+		// pass component scope to super
+		this,
+		
+		{
+			width: 150,
+			height: 30,
+			borderWidth: 1
+		},
+		// name
+		"name-of-compnent",
+		// initial state of component
+		{
+			isClosed: false
+		}
+	)
+}
+)
+```
+
+As Conventionally, Component state cannot be changed externally and uses props to modify externally components instead of states. Prop(ertie)s are exposed attributes of components. Props may be an event listener callback or color of a button component. But state is the snapshot of the component behaviour like isClicked, clickCount etc. 
 
 #### For example : 
 ```js
@@ -26,6 +67,7 @@ const UIComponent = require("js-base/component/ui-component");
 const CheckBoxButton = extend(UIComponent)(
     // Component constructor
 	function(_super, text){
+		// Initializes UIComponent constructor
 		_super(this, 
 			{
 				width: 150,
@@ -90,12 +132,6 @@ const CheckBoxButton = extend(UIComponent)(
 module.exports = CheckBoxButton;
 
 ```
-
-#### Api
-*UIComponent*
-
-UIComponent is the abstract component implemantation for creating new smartface javascipt components via /js-base/core/extend.
-Initializing custom components.
 
 
 ### Working with Pages
