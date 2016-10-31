@@ -18,7 +18,7 @@ Our core sdk for Component Oriented Application development.
 **/js-base/core/extend** inheritance container is to use creating components, pages or custom.
 
 #### Usage
-Pass **/js-base/component/uicomponent** as super class parameter for the first call then "extend" returns inherintance container for the new components. So that you can create an instance of new components which are inherited from UIComponent. UIComponent is creates instance of [SMF.UI.Container](http://docs.smartface.io/?topic=html/AllMembers_T_SMF_UI_NavigationBar.htm#!/api/SMF.UI.Container) and adds child component to.
+Pass **/js-base/component/uicomponent** as super class parameter for the first call then "extend" returns inherintance container for the new components. So that you can create an instance of new components which are inherited from UIComponent. UIComponent creates instance of [SMF.UI.Container](http://docs.smartface.io/?topic=html/AllMembers_T_SMF_UI_NavigationBar.htm#!/api/SMF.UI.Container) and adds child component to.
 
 ```js
 const extend = require("/js-base/core/extend");
@@ -83,9 +83,19 @@ As conventionally, component's state cannot be changed externally and uses props
 
 ```js
 	
-const concreteComp = newComponentContainer(
-// Component constructor
-	function(_superConstructor){
+/**
+ * concreteComp Component constructor would be CheckBox or an another concrete component.
+ * and you can creare instace of concreteComp like below
+ * 
+ * var comp = new concreteComp("this is the custom param's value");
+ */
+const concreteComp = ComponentContainer(
+	/**
+	 * Component constructor
+	 * @param _superConstructor Super class constructor
+	 * @param customParam Custom param of the component
+	 */
+	function(_superConstructor, customParam){
 		_superConstructor(
 			// pass component scope to super
 			this,
