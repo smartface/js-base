@@ -38,17 +38,17 @@ const concreteComp = newComponentContainer(
 // Component constructor
 function(_superConstructor){
 	_superConstructor(
-		// pass component scope to super
+		/// pass component scope to super
 		this,
-		// SMF.UI.Container properties
+		// pass SMF.UI.Container properties
 		{
 			width: 150,
 			height: 30,
 			borderWidth: 1
 		},
-		// name
+		// pass name of component
 		"name-of-compnent",
-		// initial state of component
+		// pass initial state of component
 		{
 			isClosed: false,
 			count: 0
@@ -60,7 +60,7 @@ function(_superConstructor){
 )
 ```
 
-Second parameter of call is to define public methods of concrete component. 
+Second parameter of call is to define public methods to concrete component. 
 
 ```js
 	...
@@ -77,11 +77,40 @@ Second parameter of call is to define public methods of concrete component.
 
 ```
 
-As Conventionally, Component state cannot be changed externally and uses props to modify externally components instead of states. Prop(ertie)s are exposed attributes of components. Props may be an event listener callback or color of a button component. But state is the snapshot of the component behaviour like isClicked, clickCount etc. 
+As conventionally, component's state cannot be changed externally and uses props to modify externally components instead of states. Prop(ertie)s are exposed attributes of components. Props may be an event listener callback or color of a button component. But state is the snapshot of the component behaviour like isClicked, clickCount etc. 
 
 ```js
-
-
+	
+const concreteComp = newComponentContainer(
+// Component constructor
+function(_superConstructor){
+	_superConstructor(
+		// pass component scope to super
+		this,
+		// pass SMF.UI.Container properties
+		{
+			width: 150,
+			height: 30,
+			borderWidth: 1
+		},
+		// pass name of component
+		"name-of-compnent",
+		// pass initial state of component
+		{
+			isClosed: false,
+			count: 0
+		}
+	), 
+	// Second parameter
+	function(_public){
+		_public.addtoCount = function(num){
+			this._changeState({
+				count: (this.state.count+num)
+			})
+		}
+	}
+	
+)
 ```
 
 #### For example : 
