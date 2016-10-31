@@ -245,6 +245,19 @@ Fired when a child control (for each control) is removed (Fired after remove) ..
 
 ```
 
+You can also dispatch custom events:
+```js
+	...
+	// Second parameter
+	function(_public){
+		_public.addtoCount = function(num){
+			...
+			this._dispatchEvent("customEvent")({type:"custom event type"});
+			...
+		}
+	}
+	...
+```
 
 #### Another example : 
 ```js
