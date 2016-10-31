@@ -9,7 +9,7 @@
 # Smartface Javascript SDK Core
 For development on smartface cloud ide, please use instructions of [https://github.com/smartface/smartface-core-workspace](https://github.com/smartface/smartface-core-workspace)
 
-### What is the Core
+### What is the SDK Core
 Our core sdk for Component Oriented Application development.
 
 ### Core Api
