@@ -91,7 +91,7 @@ module.exports = CheckBoxButton;
 
 ```
 
-#### Api
+### Core Api
 *UIComponent*
 
 UIComponent is the abstract component implemantation for creating new smartface javascipt components via /js-base/core/extend.
