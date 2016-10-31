@@ -15,7 +15,7 @@ Our core sdk for Component Oriented Application development.
 ### Core Api
 #### Creating UIComponents
 
-**/js-base/core/extend** inheritance tool is to use creating components or page.
+**/js-base/core/extend** inheritance container is to use creating components, pages or custom.
 
 #### Usage
 Pass as a parameter super class of component using /js-base/component/uicomponent for first call and returns inherintance container for the new components. Then you can create an instance of new component. UIComponent is creates instance of (SMF.UI.Container)[http://docs.smartface.io/?topic=html/AllMembers_T_SMF_UI_NavigationBar.htm#!/api/SMF.UI.Container] and adds child component to.
@@ -50,14 +50,39 @@ function(_superConstructor){
 		"name-of-compnent",
 		// initial state of component
 		{
-			isClosed: false
+			isClosed: false,
+			count: 0
 		}
-	)
-}
+	), 
+	// Second parameter
+	...
+	
 )
 ```
 
+Second parameter of call is to define public methods of concrete component. 
+
+```js
+	...
+	), 
+	// Second parameter
+	function(_public){
+		_public.addtoCount = function(num){
+			this._changeState({
+				count: (this.state.count+num)
+			})
+		}
+	}
+
+
+```
+
 As Conventionally, Component state cannot be changed externally and uses props to modify externally components instead of states. Prop(ertie)s are exposed attributes of components. Props may be an event listener callback or color of a button component. But state is the snapshot of the component behaviour like isClicked, clickCount etc. 
+
+```js
+
+
+```
 
 #### For example : 
 ```js
