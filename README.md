@@ -60,7 +60,7 @@ function(_superConstructor){
 )
 ```
 
-Second parameter of call is to define public methods to concrete component. 
+Second parameter of call is to define public methods to concrete component.
 
 ```js
 	...
@@ -83,35 +83,102 @@ As conventionally, component's state cannot be changed externally and uses props
 	
 const concreteComp = newComponentContainer(
 // Component constructor
-function(_superConstructor){
-	_superConstructor(
-		// pass component scope to super
-		this,
-		// pass SMF.UI.Container properties
-		{
-			width: 150,
-			height: 30,
-			borderWidth: 1
-		},
-		// pass name of component
-		"name-of-compnent",
-		// pass initial state of component
-		{
-			isClosed: false,
-			count: 0
-		}
-	), 
+	function(_superConstructor){
+		_superConstructor(
+			// pass component scope to super
+			this,
+			// pass SMF.UI.Container properties
+			{
+				width: 150,
+				height: 30,
+				borderWidth: 1
+			},
+			// pass name of component
+			"name-of-compnent",
+			// pass initial state of component
+			{
+				isClosed: false,
+				count: 0
+			}
+		)
+	}, 
 	// Second parameter
 	function(_public){
 		_public.addtoCount = function(num){
+			// inherited from UIComponent
+			this._changeState({
+				count: (this.state.count+num)
+			})
+		}	
+	)
+```
+
+State can only be changed via inherited this._changeState() method of component. 
+
+```js
+	...
+		this._changeState({
+			count: (this.state.count+num)
+		})
+	...
+
+```
+
+And when state is changed by any interaction then triggered **stateChangedHandler** lifecycle event callback.
+
+```js
+	...
+	// Component constructor
+	function(_superConstructor){
+		...
+		
+		this.label = new SMF.UI.Label({
+			text: text,
+			top: 0,
+			left: 40,
+			height: 30
+		});
+		this.label.font.size = 26;
+		this.add(this.label);
+	},
+	// Second parameter
+	function(_public){
+		_public.addtoCount = function(num){
+			// inherited from UIComponent
 			this._changeState({
 				count: (this.state.count+num)
 			})
 		}
+		// overrides lifecycle event callback
+		_public.stateChangedHandler = function(state){
+			// state is changed then update label
+			this.label.text = "Count is "+this.state.count;
+		}
 	}
 	
-)
+	...
+
 ```
+
+And when you can listen any event of component container 
+
+```js
+	...
+	// Component constructor
+	function(_superConstructor){
+		...
+		
+		// Subscription to onTouch callback of SMF.UI.Container of the component
+		// 
+		this.getEventStream("onTouch")
+			.subscribe(function(e){
+				changeState(({checked: !e.state.checked}));
+			})
+	},
+	...
+
+```
+
 
 #### For example : 
 ```js
@@ -175,7 +242,7 @@ const CheckBoxButton = extend(UIComponent)(
 	},
 	// Component public methods
 	function(_proto){
-    _proto.stateChangedHandlder = function(state){
+   	 _proto.stateChangedHandlder = function(state){
 			this.checkedRect.alpha = state.checked? 1:0;
 		};
 		_proto.changeButton = function(){
