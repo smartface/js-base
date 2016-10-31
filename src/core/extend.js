@@ -1,5 +1,3 @@
-
-
 /**
  * Extend is the inheritance tool to create components, pages etc.
  * 
@@ -41,7 +39,7 @@ const extend = function (_super) {
           args = [_super.__origfn__].concat(args);
         }
         
-        // call super constructure, with concrete scope
+        // call super constructor with concrete scope
         __super.apply(_scope, args);
         return __super;
       };
