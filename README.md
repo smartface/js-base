@@ -338,9 +338,82 @@ module.exports = CheckBoxButton;
 
 
 ### Working with Pages
+Pages are root view containers.
 
+#### Creating a Page
+Creating a page using (SMF.UI.Page)[http://docs.smartface.io/#!/api/SMF.UI.Page] Control like below
+ ```js
+ var homePage = new SMF.UI.Page({
+ 	// page properties
+ });
+ 
+ ```
+ After that you can call page to show on screen 
+ ```js
+ homePage.show();
+ ```
 
+Creating a page using js-base/extend below
+```js
+//home-page.js
+const Page = require('js-base/compnent/page');
+const extend = require('js-base/core/extend');
 
+const HomePageClass = extend(Page)(
+	// homePage Constructor
+	function(superPageConstructor, customPageParam){
+		superPageConstructor(
+			// initalizes super class for this page scope
+			this,
+			// Page properties
+			{},
+			// name of the page
+			"name-of-page",
+			// initial state of the page
+			{
+				loading: false
+			}
+		)
+	},
+	// public methods of the page
+	function(publicMethods){
+		// overrides abstract method of the abstract page
+		// This method is used by Router to inject routing data like userId, productId etc.
+		publicMethods.setRouteParams = function(param){
+		}
+	}
+	);
+	
+const homePage = new HomePageClass(
+	// this is the customPageParam
+	{
+		title: "User Home Page"
+	});
+	
+	// then call to show page object on screen
+	homePage.show();
+```
+
+#### Using Page Router
+Router manages application routes like other frameworks for example angularjs, react-router etc.
+
+First, we register pages of application.
+```js
+
+Router.add(
+	// Routing name
+	"product-home", 
+	// Page Class
+	HomePageClass
+);
+
+// to call page anywhere of application, we can call like below
+Router.go(
+	"product-home",
+	productId
+);
+
+```
 
 ## Support & Documentation & Useful Links
 Guides: https://www.smartface.io/guides
