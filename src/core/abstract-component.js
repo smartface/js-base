@@ -28,7 +28,7 @@ function AbstractComponent(view, name, initialState) {
   var self = this;
 
   const stateChanged = (_state) => {
-    state = _state;
+    // state = _state;
     this.stateChangedHandlder(this.getState());
   };
   
@@ -55,7 +55,7 @@ function AbstractComponent(view, name, initialState) {
    * @returns {Observable}
    *
    */
-  this.getEventStream = () => {
+  this.getEventStream = function(){
     const callbacks = streamContainer(view);
     const events = streamContainer(this);
     
@@ -79,7 +79,7 @@ function AbstractComponent(view, name, initialState) {
 
       return streams[eventName];
     };
-  }();
+  }.call(this);
   
   this.dispose = function(){
     Object.keys(streams).forEach(function(key){
