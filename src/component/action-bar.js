@@ -81,7 +81,7 @@ const iOSProxy = function(navigationBar, page){
 }
 
 const runOnAndroid = function(page, options) {
-  let actionBarProxy = new AndroidProxy(page.actionBar);
+  var actionBarProxy = new AndroidProxy(page.actionBar);
   return {
     unload: function(){
       this.reset();

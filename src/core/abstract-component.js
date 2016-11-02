@@ -27,19 +27,19 @@ function AbstractComponent(view, name, initialState) {
   
   var self = this;
 
-  const stateChanged = (_state) => {
+  const stateChanged = function(_state) {
     // state = _state;
     this.stateChangedHandlder(this.getState());
-  };
+  }.bind(this);
   
   this._viewProxy = new Proxy(view);
   
-  this._dispatchEvent = (event) => {
-    return (eventObj) => {
-      if(typeof streams[event] === "function"){
+  this._dispatchEvent = function(event) {
+    return function(eventObj) {
+      if(typeof streams[event] === "function") {
         this[event](eventObj);
       }
-    };
+    }.bind(this);
   };
   
   this._changeState = function(update){
@@ -59,26 +59,26 @@ function AbstractComponent(view, name, initialState) {
     const callbacks = streamContainer(view);
     const events = streamContainer(this);
     
-    return (eventName) => {
+    return function(eventName) {
       if(typeof streams[eventName] === "undefined"){
         streams[eventName] = eventName.indexOf("on") == 0 ? 
-          callbacks(eventName).map((e) => {
+          callbacks(eventName).map(function(e) {
             e = e || {};
             e.state = state;
             e.type = eventName;
             return e;
-          })
+          }.bind(this))
           :
-          events(eventName).map((e) => {
+          events(eventName).map(function(e) {
             e = e || {};
             e.type = eventName;
             e.state = state;
             return e;
-          });
+          }.bind(this));
       }
 
       return streams[eventName];
-    };
+    }.bind(this);
   }.call(this);
   
   this.dispose = function(){

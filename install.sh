@@ -14,6 +14,7 @@ cp -rf ./node_modules/jasmine-reporters/src ../scripts/node_modules/jasmine-repo
 cp -rf ./node_modules/jasmine-reporters/index.js ../scripts/node_modules/jasmine-reporters
 # cp -rf ./node_modules/jasmine ../scripts/node_modules/js-base/vendors/
 cp -rf ./node_modules/babel-polyfill/dist ../scripts/node_modules/babel-polyfill
+cp -rf ./node_modules/babel-polyfill/package.json ../scripts/node_modules/babel-polyfill/
 cp -rf ./package.json ../scripts/package.json
 cp -rf ./node_modules/rx/package.json ../scripts/node_modules/rx/package.json
 
