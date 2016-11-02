@@ -4,6 +4,7 @@ const AbstractPage = require("../core/abstract-page");
 const Page = extend(AbstractPage)(
 	//Page Constructor
 	function(_super, params){
+		const view = new SMF.UI.Page(params);
 		_super(this, view);
 	},
 	//Page Public Methods

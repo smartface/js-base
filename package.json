@@ -5,7 +5,8 @@
   "license": "MIT",
   "version": "1.0.0-beta2",
   "scripts": {
-    "test": "node ./test.js"
+    "test": "node ./test.js",
+    "jasmine": "jasmine"
   },
   "devDependencies": {
     "jasmine": "^2.5.2",
