@@ -17,16 +17,17 @@ const addChild = function(component){
   };
 };
 
-function AbstractComponent(view, name, initialState, styler) {
+function AbstractComponent(view, name, initialState) {
   if(!view){
     throw new Error("Component View must not be undefined or null");
   }
   
+  
   name = name || "";
   const state = initialState || {};
   
-  var self = this;
   var _classNames;
+  var _styler;
 
   const stateChanged = function(_state) {
     // state = _state;
@@ -34,6 +35,25 @@ function AbstractComponent(view, name, initialState, styler) {
   }.bind(this);
   
   this._viewProxy = new Proxy(view);
+  
+  this.updateStyles = function(key, value){
+  };
+  
+  this.setStyler = function(styler){
+    _styler = styler;
+    _styler(this.getClassName())(this.updateStyles.bind(this));
+  };
+  
+  this.setClassName = function(classNames){
+    _classNames = classNames;
+    if(_styler){
+      _styler(classNames)(this.updateStyles.bind(this));
+    }
+  };
+  
+  this.getClassName = function(){
+    return _classNames;
+  };
   
   this._dispatchEvent = function(event) {
     return function(eventObj) {

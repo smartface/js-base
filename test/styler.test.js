@@ -46,16 +46,17 @@ describe("Styler", function() {
       width: 0,
       height: 0,
       color: "",
-    }
+    };
     
     var component2 = {
       width: 0,
       height: 0,
       color: "",
       font: {
-        size: "12"
+        size: "12",
+        bold: false
       }
-    }
+    };
     
     var style = {
       ".button": {
@@ -65,38 +66,57 @@ describe("Styler", function() {
           color: "red",
         }
       },
-      ".text-":{
+      ".text-16":{
         font: {
           size: "16"
         },
         ".blue":{
-          color: "blue"
+          color: "blue",
+          ".bold": {
+            font: {
+              bold: true
+            }
+          }
         }
       }
     };
     
     const styling = styler(style);
     
-    styling(".button.red")(function(key, value) {
+    styling(".button.red")(function(className, key, value) {
       component[key] = value;
     });
     
-    styling(".button .text-.blue")(function(key, value){
-      component2[key] = value;
+    styling(".button .text-16.blue.bold")(function(className, key, value){
+      if(typeof component2[key] === "object"){
+        Object.assign(component2[key], value);
+      } else {
+        component2[key] = value;
+      }
     });
     
-    expect(component).toEqual( {
+    
+    /*var container = extend(AbstractComponent);
+    var comp1 = new container(function(_super, {}){
+      _super(this, "");
+    },
+    function(_public){
+      
+    });*/
+    
+    expect(component).toEqual({
       width: 100,
       height: 200,
       color: "red"
     });
     
-    expect(component2).toEqual( {
+    expect(component2).toEqual({
       width: 100,
       height: 200,
       color: "blue",
       font: {
-        size: "16"
+        size: "16",
+        bold: true
       }
     });
   });
