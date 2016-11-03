@@ -91,7 +91,7 @@ const assignStyles = function(style, classNames, fn){
       Object.keys(style[className])
         .map(function(key){
           if(key.indexOf(".") === -1){
-            console.log(key);
+            // console.log(key);
             fn(key, style[className][key]);
           }
         });
