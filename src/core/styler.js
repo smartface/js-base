@@ -125,5 +125,4 @@ StyleSheet.prototype.map = function(f) {
   }));
 };
 
-
 module.exports = _exports;

@@ -41,7 +41,7 @@ describe("Styler", function() {
     expect(findClassNames(".button .red   .layout.left")).toEqual([['.button'], ['.red' ], [ '.layout', '.left' ]]);
   });
   
-  it("should assign styles to component", function() {
+  it("should pass styles to callback", function() {
     var component = {
       width: 0,
       height: 0,
