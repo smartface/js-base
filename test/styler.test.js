@@ -32,6 +32,52 @@ describe("Styler", function() {
       }
     }
   };
+  
+  var style3 = {
+      ".button": {
+        width: 100,
+        height: 200,
+        ".red":{
+          color: "red",
+        }
+      },
+      ".text-16":{
+        font: {
+          size: "16"
+        },
+        ".blue":{
+          color: "blue",
+          ".bold": {
+            font: {
+              bold: true
+            }
+          }
+        }
+      }
+    };
+
+  var style4 = {
+      ".button": {
+        width: 100,
+        height: 200,
+        ".red":{
+          color: "red",
+        }
+      },
+      ".text-16":{
+        font: {
+          size: "16"
+        },
+        ".blue":{
+          "&element":{
+            fillColor: "black",
+            font: {
+              size: "12dp"
+            }
+          }
+        }
+      }
+    };
 
   beforeEach(function() {
   });
@@ -58,30 +104,7 @@ describe("Styler", function() {
       }
     };
     
-    var style = {
-      ".button": {
-        width: 100,
-        height: 200,
-        ".red":{
-          color: "red",
-        }
-      },
-      ".text-16":{
-        font: {
-          size: "16"
-        },
-        ".blue":{
-          color: "blue",
-          ".bold": {
-            font: {
-              bold: true
-            }
-          }
-        }
-      }
-    };
-    
-    const styling = styler(style);
+    const styling = styler(style3);
     
     styling(".button.red")(function(className, key, value) {
       component[key] = value;
@@ -94,16 +117,7 @@ describe("Styler", function() {
         component2[key] = value;
       }
     });
-    
-    
-    /*var container = extend(AbstractComponent);
-    var comp1 = new container(function(_super, {}){
-      _super(this, "");
-    },
-    function(_public){
-      
-    });*/
-    
+
     expect(component).toEqual({
       width: 100,
       height: 200,
@@ -117,6 +131,23 @@ describe("Styler", function() {
       font: {
         size: "16",
         bold: true
+      }
+    });
+  });
+  
+  it("should pass element styles to callback", function() {
+    const styling = styler(style4);
+    var component = {};
+    
+    styling(".text-16.blue")(function(className, key, value) {
+      component[key] = value;
+      // console.log(className+" - "+key+" - "+value);
+    });
+    
+    expect(component).toEqual({
+      fillColor: "black",
+      font: {
+        size: "12dp"
       }
     });
   });

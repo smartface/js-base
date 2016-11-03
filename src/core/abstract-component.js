@@ -17,12 +17,11 @@ const addChild = function(component){
   };
 };
 
-function AbstractComponent(view, name, initialState) {
+function AbstractComponent(view, name, initialState){
   if(!view){
     throw new Error("Component View must not be undefined or null");
   }
-  
-  
+
   name = name || "";
   const state = initialState || {};
   
@@ -30,7 +29,6 @@ function AbstractComponent(view, name, initialState) {
   var _styler;
 
   const stateChanged = function(_state) {
-    // state = _state;
     this.stateChangedHandlder(this.getState());
   }.bind(this);
   
