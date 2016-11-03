@@ -17,7 +17,7 @@ const addChild = function(component){
   };
 };
 
-function AbstractComponent(view, name, initialState) {
+function AbstractComponent(view, name, initialState, styler) {
   if(!view){
     throw new Error("Component View must not be undefined or null");
   }
@@ -26,6 +26,7 @@ function AbstractComponent(view, name, initialState) {
   const state = initialState || {};
   
   var self = this;
+  var _classNames;
 
   const stateChanged = function(_state) {
     // state = _state;
@@ -42,11 +43,11 @@ function AbstractComponent(view, name, initialState) {
     }.bind(this);
   };
   
-  this._changeState = function(update){
+  this._changeState = function(update) {
     Object.assign(state, update);
     stateChanged.call(this, this.getState());
-  }.bind(this);
-
+  };
+  
   const streams = {};
   
   /**
@@ -55,7 +56,7 @@ function AbstractComponent(view, name, initialState) {
    * @returns {Observable}
    *
    */
-  this.getEventStream = function(){
+  this.getEventStream = function() {
     const callbacks = streamContainer(view);
     const events = streamContainer(this);
     
