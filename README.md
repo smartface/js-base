@@ -337,22 +337,51 @@ module.exports = CheckBoxButton;
 ```
 
 ### Component StyleSheet
-UIComponents are styleable compnents also. 
+UIComponents are styleable components. 
 
-#### js-base/core/styler
+### js-base/core/styler
 **styler(style)(className)(updateCallBack(className, key, value))**
 Creates styling container.
 ```js
 var style = {
-...
+	...
 }
 var styling = styler(style);
+
 ...
 ```
-#### js-base/core/styler
+### Creating Style Object
+You can create objects using '.' for className and '&' for component instances.
+```js
+var style = {
+  ".checkbox": {
+    width : "150dp",
+    height: "30dp",
+    ".normal": {
+      "&container":{
+        borderColor: warnColor,
+      },
+      "&label": {
+        font:{
+          size: "28dp"
+        }
+      },
+      "&checkedRect":{
+        fillColor: warnColor
+      },
+      "&checkedAreaRect":{
+        borderColor:  warnColor
+      }
+    }
+    
+var styling = styler(style);
 
+```
 
-#### js-base/component/UIComponent Style Api
+### js-base/core/styler
+**styler(style)(className)(updateCallBack(className, key, value))**
+
+### js-base/component/UIComponent Style Api
 - **setStyler(styler)**
 Assigns js-base/core/styler container to UIComponent instance.
 - **setClassNames(className)**
