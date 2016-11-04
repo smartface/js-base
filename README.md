@@ -341,8 +341,7 @@ UIComponents are styleable compnents also.
 
 #### Style Api
 **setStyler**
-=============
-
+-------
 
 
 ### Working with Pages
