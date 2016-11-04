@@ -16,7 +16,7 @@ const IUComponent = component(
     name = name || "component"+(++nameCounter);
     var view = new SMF.UI.Container(params);
     var _elements = {};
-    var _classNames;
+    var _className;
     var _styler;
     
     _elements[name] = view;
@@ -31,7 +31,7 @@ const IUComponent = component(
      */
     const renderStyles = function() {
       if(_styler){
-        _styler(_classNames)(this.updateStyles.bind(this));
+        _styler(_className)(this.updateStyles.bind(this));
       }
     }.bind(this);
     
@@ -77,9 +77,9 @@ const IUComponent = component(
      * 
      * @params {string} classNames
      */
-    this.setClassName = function(classNames){
-      _classNames = classNames;
-      _elements[classNames] = view;
+    this.setClassName = function(className){
+      _className = className;
+      _elements[className] = view;
       renderStyles();
     };
     
@@ -89,7 +89,7 @@ const IUComponent = component(
      * @returns {string}
      */
     this.getClassName = function(){
-      return _classNames;
+      return _className;
     };
   },
   function(_proto){
