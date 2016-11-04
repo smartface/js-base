@@ -25,33 +25,11 @@ function AbstractComponent(view, name, initialState){
   name = name || "";
   const state = initialState || {};
   
-  var _classNames;
-  var _styler;
-
   const stateChanged = function(_state) {
     this.stateChangedHandlder(this.getState());
   }.bind(this);
   
   this._viewProxy = new Proxy(view);
-  
-  this.updateStyles = function(key, value){
-  };
-  
-  this.setStyler = function(styler){
-    _styler = styler;
-    _styler(this.getClassName())(this.updateStyles.bind(this));
-  };
-  
-  this.setClassName = function(classNames){
-    _classNames = classNames;
-    if(_styler){
-      _styler(classNames)(this.updateStyles.bind(this));
-    }
-  };
-  
-  this.getClassName = function(){
-    return _classNames;
-  };
   
   this._dispatchEvent = function(event) {
     return function(eventObj) {
@@ -115,7 +93,7 @@ function AbstractComponent(view, name, initialState){
   
   this.getState = function(){
     return Object.assign({}, state);
-  }
+  };
 };
 
 AbstractComponent.Events = {

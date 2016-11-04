@@ -56,6 +56,13 @@ const assignStyles = function(style, classNames, fn) {
   });
 };
 
+
+/**
+ * Styling Wrapper Curry Funtion
+ * Returns style scoped function
+ * 
+ * @params {object} style Styles Object
+ */ 
 _exports.styler = function(style) {
   return function(classNames) {
     if(!cache.hasOwnProperty(classNames)){
