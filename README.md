@@ -339,10 +339,24 @@ module.exports = CheckBoxButton;
 ### Component StyleSheet
 UIComponents are styleable compnents also. 
 
-#### Style Api
-**setStyler**
--------
+#### js-base/core/styler
+**styler(style)(className)(updateCallBack(className, key, value))**
+Creates styling container.
+```js
+var style = {
+...
+}
+var styling = styler(style);
+...
+```
+#### js-base/core/styler
 
+
+#### js-base/component/UIComponent Style Api
+- **setStyler(styler)**
+Assigns js-base/core/styler container to UIComponent instance.
+- **setClassNames(className)**
+Assigns styling classNames to UIComponent
 
 ### Working with Pages
 Pages are root view containers.
