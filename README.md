@@ -340,7 +340,8 @@ module.exports = CheckBoxButton;
 UIComponents are styleable compnents also. 
 
 #### Style Api
-===**setStyler**
+**setStyler**
+=============
 
 
 
