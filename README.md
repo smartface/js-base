@@ -11,6 +11,7 @@ For development on smartface cloud ide, please use instructions of [https://gith
 
 ### What is the SDK Core
 Our core sdk for Component Oriented Application development.
+![Class Diagram](/diagram.png "Class Diagram")
 
 ### Core Api
 #### Creating UIComponents
