@@ -21,14 +21,26 @@ const IUComponent = component(
     
     _elements[name] = view;
     
+    /**
+     * Class AbstractComponent Constructor
+     */
     _super(this, view, name, initialState);
     
+    /**
+     * Invalidates styling
+     */
     const renderStyles = function(){
       if(_styler){
         _styler(_classNames)(this.updateStyles.bind(this));
       }
     }.bind(this);
     
+    /**
+     * Overrides add method
+     * 
+     * @params {UIComponent|SMF.UI.Component} child
+     * @params {string} id Component styling id
+     */
     this.add = function(child, id){
       if(id) {
         _elements[id] = child;
@@ -38,24 +50,44 @@ const IUComponent = component(
       renderStyles();
     };
     
+    /**
+     * updates style values
+     * 
+     * @params {string} classNames
+     */
 		this.updateStyles = function(className, key, value){
 			if(_elements.hasOwnProperty(className)){
 				_elements[className][key] = value;
 			}
 		};
 		
+    /**
+     * sets styler
+     * 
+     * @params {string} classNames
+     */
     this.setStyler = function(styler){
       _styler = styler;
       _styler(this.getClassName())(this.updateStyles.bind(this));
       renderStyles();
     };
     
+    /**
+     * sets component className
+     * 
+     * @params {string} classNames
+     */
     this.setClassName = function(classNames){
       _classNames = classNames;
       _elements[classNames] = view;
       renderStyles();
     };
     
+    /**
+     * Returns component className
+     * 
+     * @returns {string}
+     */
     this.getClassName = function(){
       return _classNames;
     };
