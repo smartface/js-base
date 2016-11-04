@@ -16,7 +16,7 @@ const getClassValue = function(styleDef) {
 const findClassNames = (function() {
   const classesRegExp = /\.([a-zA-Z\W0-9][^\.]*)/g;
   const cache = {};
-  return (selector) => {
+  return function(selector) {
     if(cache.hasOwnProperty(selector)){
       return cache[selector];
     }
