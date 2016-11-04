@@ -353,6 +353,8 @@ var styling = styler(style);
 ### Creating Style Object
 You can create objects using '.' for className and '&' for component instances.
 ```js
+var warnColor = "#0c77ff";
+
 var style = {
   ".checkbox": {
     width : "150dp",
@@ -375,6 +377,72 @@ var style = {
     }
     
 var styling = styler(style);
+
+```
+***Usage of Styler***
+```js
+const CheckBoxButton = extend(UIComponent)(
+	function(_super, text){
+		_super(
+			// for initializing super component as this scope
+			this, 
+			// Component container properties
+			{
+				...
+			},
+			// component style id
+			"&container",
+			// initial state of component
+			{
+				...
+			}
+		);
+		
+	...	
+	
+		this.checkedRect = new SMF.UI.Rectangle({
+			fillColor: "#000000",
+			width: "15dp",
+			height: "15dp",
+			left: "7.5dp",
+			top: "7.5dp",
+			alpha: 0,
+			name: "checkedRect"
+		});
+		
+		this.checkedAreaRect = new SMF.UI.Rectangle({
+			fillColor: "#ffffff",
+			width: "30dp",
+			top: 0,
+			left: 0,
+			borderWidth: "1dp",
+     			borderColor: "#305E75",
+			height: "30dp",
+			name: "checkedAreaRect"
+		});
+		
+		this.label = new SMF.UI.Label({
+			text: text,
+			top: 0,
+			left: "40dp",
+			height: "30dp",
+			name: "label",
+			// if this propery is true then onTouch event of parent Container of this Label cannot be captured.
+			touchEnabled: false
+		});
+		
+		this.label.font.size = "26dp";
+		
+		this.add(this.label, "&label");
+		this.add(this.checkedAreaRect, "&checkedAreaRect");
+		this.add(this.checkedRect, "&checkedRect");
+	...
+);
+
+/** {UIComponent} */
+var btn = new CheckBoxButton("Touch me!");
+btn.setClassName(".checkbox.warn");
+btn.setStyler(styling);
 
 ```
 
