@@ -29,7 +29,7 @@ const IUComponent = component(
     /**
      * Invalidates styling
      */
-    const renderStyles = function(){
+    const renderStyles = function() {
       if(_styler){
         _styler(_classNames)(this.updateStyles.bind(this));
       }
