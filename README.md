@@ -336,6 +336,13 @@ module.exports = CheckBoxButton;
 
 ```
 
+### Component StyleSheet
+UIComponents are styleable compnents also. 
+
+#### Style Api
+===**setStyler**
+
+
 
 ### Working with Pages
 Pages are root view containers.
