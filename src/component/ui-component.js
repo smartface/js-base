@@ -2,6 +2,14 @@ const component = require("./component").component;
 const nameCounter = 0;
 const AbstractComponent = require("../core/abstract-component");
 
+/**
+ * UI Component Abstraction
+ * UI Component has SMF.UI.Container as defualt
+ * UI Component are styleable
+ * 
+ * @version 1.2.0
+ * @class
+ */
 const IUComponent = component(
   // Component Constructor
   function(_super, params, name, initialState){
@@ -51,7 +59,6 @@ const IUComponent = component(
     this.getClassName = function(){
       return _classNames;
     };
-    
   },
   function(_proto){
   });
