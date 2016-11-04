@@ -1,6 +1,12 @@
 const extend = require("../core/extend");
 const AbstractPage = require("../core/abstract-page");
 
+/**
+ * Page Abstraction Class
+ * 
+ * @version 1.1.0
+ * @class
+ */
 const Page = extend(AbstractPage)(
 	//Page Constructor
 	function(_super, params){
@@ -13,9 +19,5 @@ const Page = extend(AbstractPage)(
 			this._view.show.apply(this._view, arguments);
 		};
 	});
-
-function page1_onShow() {
-	alert("Hello World");
-};
 
 module.exports = Page;
