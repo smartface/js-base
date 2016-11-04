@@ -183,9 +183,9 @@ And when state is changed by any interaction then triggered **stateChangedHandle
 
 ```
 
-And you can subscribe any event of SMF.UI.Container of the component, internal or externally. Injects event object to subscription function with event type and component state.
+And you can subscribe any event of SMF.UI.Container of the component, internal or externally. Injects event object to subscription callback and pass event object that contains event's type and current component state.
 ##### SMF.UI.Container event callbacks
-Callbacks is different from components' events. Callbacks are always start with "on" prefix. Callbacks are only used for SMF View Components like SMF.UI.Label, SMF.UI.Container and others. "on" prefix reserved usage of callbacks and you musn't use for component events.
+Callbacks are different from component's events. Callbacks are always start with "on" prefix. Callbacks are only used with SMF View Components like SMF.UI.Label, SMF.UI.Container and others. "on" prefix reserved usage of callbacks and you musn't use for component events.
 - onControlAdd
 Fired when a child control (for each control) is added (Fired after added) ...
 - onControlRemoved
