@@ -69,7 +69,7 @@ _exports.styler = function(style) {
       cache[classNames] = [];
     }
     return function(classNamesArr, fn){
-      if(cache.hasOwnProperty(classNames).length > 0){
+      if(cache.hasOwnProperty(classNames)){
         cache[classNames].map(function(item){
           fn(item[0], item[1], item[2]);
         })
