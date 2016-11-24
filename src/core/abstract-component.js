@@ -26,7 +26,7 @@ function AbstractComponent(view, name, initialState){
   const state = initialState || {};
   
   const stateChanged = function(_state) {
-    this.stateChangedHandlder(this.getState());
+    this.stateChangedHandler(this.getState());
   }.bind(this);
   
   this._viewProxy = new Proxy(view);
@@ -115,8 +115,8 @@ AbstractComponent.prototype.add = function(child) {
   });
 };
 
-AbstractComponent.prototype.stateChangedHandlder = function (state) {
-  throw new Error("stateChangedHandlder must be overrode.");
+AbstractComponent.prototype.stateChangedHandler = function (state) {
+  throw new Error("stateChangedHandler must be overrode.");
 };
 
 AbstractComponent.prototype.set = function (prop, value) {

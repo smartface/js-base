@@ -7,12 +7,12 @@ describe("component wrapper", function() {
   var constructor = function (_super, param1, param2) {
     var view = {};
     _super(this, view);
-    this.stateChangedHandlder = function(state){};
+    this.stateChangedHandler = function(state){};
   };
 
   beforeEach(function() {
     comp = component(constructor, function(_proto) {
-      _proto.stateChangedHandlder = function(state){};  
+      _proto.stateChangedHandler = function(state){};  
     });
 
   });
@@ -30,7 +30,7 @@ describe("component wrapper", function() {
     };
 
     comp = component(constructor, function(_proto) {
-      _proto.stateChangedHandlder = function(state){};  
+      _proto.stateChangedHandler = function(state){};  
     });
     
     const inst = new comp({});
@@ -42,7 +42,7 @@ describe("component wrapper", function() {
     };
 
     comp = component(constructor, function(_proto) {
-      _proto.stateChangedHandlder = function(state){};  
+      _proto.stateChangedHandler = function(state){};  
     });
 
     const inst = new comp("param1");
@@ -56,7 +56,7 @@ describe("component wrapper", function() {
       function (_proto) {
         console.log("proto", _proto);
         _proto.method1 = method1;
-        _proto.stateChangedHandlder = function(state){};
+        _proto.stateChangedHandler = function(state){};
       });
 
     const inst = new comp("param1", "param2");

@@ -326,7 +326,7 @@ const CheckBoxButton = extend(UIComponent)(
 	},
 	// Component public methods
 	function(_proto){
-   	 _proto.stateChangedHandlder = function(state){
+   	 _proto.stateChangedHandler = function(state){
 			this.checkedRect.alpha = state.checked? 1:0;
 		};
 		_proto.changeButton = function(){
