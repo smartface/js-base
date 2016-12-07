@@ -2,9 +2,7 @@
 var lastRequestPermissionCode = 2000;
 var permissionRequestMap = {};
 
-const exports = module.exports = {};
-
-exports.checkPermission = function checkPermission(permissions, rationaleDisplay, callback) {
+function checkPermission(permissions, rationaleDisplay, callback) {
     if (Device.deviceOS === "iOS") { //hardcoded logic for iOS to pass
         callback(null);
     }
@@ -78,6 +76,7 @@ exports.checkPermission = function checkPermission(permissions, rationaleDisplay
     }
 
 };
+exports.checkPermission = checkPermission;
 
 exports.rationaleDisplay = function rationaleDisplay(permissions, callback) {
     alert({
@@ -99,7 +98,7 @@ Application.onRequestPermissionsResult = function onRequestPermissionsResult(e) 
     permissionRequestMap[e.requestCode].result(e);
 };
 
-exports.applyPermission = function applyPermission(fn, thisObject, args, reason, done) {
+function applyPermission(fn, thisObject, args, reason, done) {
     if (typeof reason === "function" && typeof done === "undefined") {
         done = reason;
         reason = undefined;
@@ -109,14 +108,14 @@ exports.applyPermission = function applyPermission(fn, thisObject, args, reason,
         done && done(null);
     }
     else {
-        global.checkPermission(fn.permissions, reason, function (err) {
+        checkPermission(fn.permissions, reason, function (err) {
             if (!err)
                 fn.apply(thisObject, args);
             done(err);
         });
     }
 };
-
+exports.applyPermission = applyPermission;
 
 const applyPermissionToFunction = function(fn, thisObject, options) {
     var reason = options.reason,
@@ -138,15 +137,15 @@ exports.startCamera = function startCamera(options) {
 };
 
 exports.pickFromGallery = function pickFromGallery(options) {
-    applyPermissionToFunction(Device.Media.pickFromGallery, Device.Media, options);
+    applyPermissionToFunction(SMF.Multimedia.pickFromGallery, Device.Media, options);
 };
 
 exports.getGalleryItems = function getGalleryItems(options) {
-    applyPermissionToFunction(Device.Media.getGalleryItems, Device.Media, options);
+    applyPermissionToFunction(SMF.Multimedia.getGalleryItems, Device.Media, options);
 };
 
 exports.saveToGallery = function saveToGallery(options) {
-    applyPermissionToFunction(Device.Media.saveToGallery, Device.Media, options);
+    applyPermissionToFunction(SMF.Multimedia.saveToGallery, Device.Media, options);
 };
 
 exports.addContact = function addContact(options) {
@@ -165,13 +164,13 @@ exports.setGPSStatus = function setGPSStatus(options) {
     applyPermissionToFunction(Device.setGPSStatus, Device, options);
 };
 
-const onSMSReceived = function onSMSReceived(event, options) {
+exports.onSMSReceived = function onSMSReceived(event, options) {
     var reason = options.reason,
         done = options.done;
     reason && delete options.reason;
     done && delete options.done;
     var permissions = ["RECEIVE_SMS", "READ_SMS"];
-    global.checkPermission(permissions, reason, function (err) {
+    checkPermission(permissions, reason, function (err) {
         if (!err)
             Application.onSMSReceived = event;
         done(err);
@@ -181,9 +180,9 @@ const onSMSReceived = function onSMSReceived(event, options) {
 
 if (Device.deviceOS === "Android") {
     SMF.Multimedia.startCamera.permissions = ["CAMERA"];
-    Device.Media.pickFromGallery.permissions = ["READ_EXTERNAL_STORAGE"];
-    Device.Media.getGalleryItems.permissions = ["READ_EXTERNAL_STORAGE"];
-    Device.Media.saveToGallery.permissions = ["WRITE_EXTERNAL_STORAGE"];
+    SMF.Multimedia.pickFromGallery.permissions = ["READ_EXTERNAL_STORAGE"];
+    SMF.Multimedia.getGalleryItems.permissions = ["READ_EXTERNAL_STORAGE"];
+    SMF.Multimedia.saveToGallery.permissions = ["WRITE_EXTERNAL_STORAGE"];
     SMF.Net.sendSMS.permissions = ["SEND_SMS"];
     Device.Contacts.addContact.permissions = ["WRITE_CONTACTS"];
     Device.Contacts.getAll.permissions = ["READ_CONTACTS"];
@@ -191,5 +190,3 @@ if (Device.deviceOS === "Android") {
     Device.setGPSStatus.permissions = ["ACCESS_FINE_LOCATION"];
     Device.Contacts.pick.permissions = ["READ_CONTACTS"];
 }
-
-
