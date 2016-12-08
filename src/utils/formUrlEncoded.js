@@ -1,4 +1,4 @@
-module.exports = function encodeFromUrl(data, opts) {
+module.exports = function(data, opts) {
     opts = typeof opts === 'object' ? opts : {};
     return filterJoin(keys(data).map(function(key) {
         return nest(key, data[key]);
