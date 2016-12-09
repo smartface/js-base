@@ -1,10 +1,16 @@
-/* globals formUrlEncoded */
+/* globals */
 'use strict';
 if (typeof Object.assign !== 'function') {
-	include('libs/Smartface/polyfills.js');
+	(require && require('babel-polyfill/dist/polyfill.js')) || include('libs/Smartface/polyfills.js');
 }
+
+var formUrlEncoded;
+
 if (typeof formUrlEncoded !== 'function') {
-	include('libs/Smartface/formUrlEncoded.js');
+	if (require)
+		formUrlEncoded = require('js-base/utils/formUrlEncoded');
+	else
+		include('libs/Smartface/formUrlEncoded.js');
 }
 var SMFAjax = {};
 
@@ -233,13 +239,15 @@ SMFAjax.processShorthandArguments = function(url, data, success, dataType, conte
 		dataType = success;
 		success = data;
 		data = null;
-	} else if(typeof data === "object") {
+	}
+	else if (typeof data === "object") {
 		obj.data = Object.assign({}, data);
-		if(obj.data.headers) {
+		if (obj.data.headers) {
 			obj.headers = data.headers;
 			delete obj.data.headers;
 		}
-	} else if (data) {
+	}
+	else if (data) {
 		obj.data = data;
 	}
 	if (success) {
@@ -251,7 +259,7 @@ SMFAjax.processShorthandArguments = function(url, data, success, dataType, conte
 	if (contentType) {
 		obj.contentType = contentType;
 	}
-	
+
 	return obj;
 };
 
