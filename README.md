@@ -361,9 +361,9 @@ var style = {
   ".checkbox": {
     width : "150dp",
     height: "30dp",
-    ".normal": {
+    ".warn": {
       "&container":{
-        borderColor: warnColor,
+        borderColor: normalColor,
       },
       "&label": {
         font:{
@@ -371,13 +371,15 @@ var style = {
         }
       },
       "&checkedRect":{
-        fillColor: warnColor
+        fillColor: normalColor
       },
       "&checkedAreaRect":{
-        borderColor:  warnColor
+        borderColor:  normalColor
       }
     }
-    
+  }
+};
+
 var styling = styler(style);
 
 ```
