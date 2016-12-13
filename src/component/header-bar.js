@@ -91,9 +91,9 @@ const runOnAndroid = function(page, options) {
     }
     , reset: function(){
       Object
-        .keys(ActionBarWrapper.options)
+        .keys(HeaderBar.options)
         .forEach(
-          assignKeys(actionBarProxy, ActionBarWrapper.options, "ios", "android"));
+          assignKeys(actionBarProxy, HeaderBar.options, "ios", "android"));
     }
     , reload: function(){
       Object
@@ -120,9 +120,9 @@ const runOniOS = function(page, options) {
     }
     , reset: function(){
       Object
-        .keys(ActionBarWrapper.options)
+        .keys(HeaderBar.options)
         .forEach(
-          assignKeys(navigationProxy, ActionBarWrapper.options, "android", "ios"));
+          assignKeys(navigationProxy, HeaderBar.options, "android", "ios"));
     }
     , reload: function(){
       Object
@@ -139,7 +139,7 @@ const runOniOS = function(page, options) {
   };
 };
 
-const ActionBarWrapper = function(page, options) {
+const HeaderBar = function(page, options) {
   options = Object.assign({}, options);
   
   if (Device.deviceOS === "Android") {
@@ -149,7 +149,7 @@ const ActionBarWrapper = function(page, options) {
   }
 };
 
-ActionBarWrapper.options = {
+HeaderBar.options = {
     visible: false
   , overlay: false
   , backgroundImage: null
@@ -172,4 +172,4 @@ ActionBarWrapper.options = {
   }
 };
 
-module.exports = ActionBarWrapper;
+module.exports = HeaderBar;
