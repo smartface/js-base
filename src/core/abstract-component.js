@@ -3,7 +3,7 @@ const Proxy = require("./proxy");
 
 const streamContainer = function (target) {
   return function (eventName) {
-    try{
+    try {
       return SMFx.fromCallback(target, eventName);
     } catch (e) {
       throw e;
@@ -117,6 +117,10 @@ AbstractComponent.prototype.add = function(child) {
 
 AbstractComponent.prototype.stateChangedHandler = function (state) {
   throw new Error("stateChangedHandler must be overrode.");
+};
+
+AbstractComponent.prototype.hasProp = function (prop) {
+  return this._viewProxy.hasProp(prop);
 };
 
 AbstractComponent.prototype.set = function (prop, value) {
