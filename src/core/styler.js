@@ -8,13 +8,11 @@ const getClassValue = function(styleDef) {
   return function(className) {
     if (typeof styleDef[className] === "undefined") {
       return styleDef[className];
-    }
-    else {
+    } else {
       throw new Error(`Specified className ${className} is not found.`);
     }
   };
 };
-
 
 const findClassNames = (function() {
   const classesRegExp = /\.([a-zA-Z\W0-9][^\.]*)/g;
@@ -60,7 +58,6 @@ const assignStyles = function(style, classNames, fn) {
     }
   });
 };
-
 
 /**
  * Styling Wrapper Curry Funtion
