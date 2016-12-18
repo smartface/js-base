@@ -1,10 +1,14 @@
 /**
+ * @global Pages
+ */
+/**
  * Type definition of the Page Value Object
  * 
  * @typedef {Object} PageVO
  * @property {Function} type Page class constructor
  * @property {Array} transitionParams Page transition options
  */
+// var Pages = Pages || {show: function(){}};
 
 /**
  * Application Router Implementation
@@ -143,38 +147,37 @@ Router.add = function(path, pageClass, transitionParams) {
 };
 
 /**
- * Creates and shows a page by specified path and injects params.
+ * Creates and shows a page by specified path and injects route and page params.
  * 
  * @param {String} path routing path of page
  * @param {Object} params injects routing data to page
  */
 Router.go = function(path, params) {
   var route = this.__routes[path];
-  params = Object.assign({}, params);
+  params = Array.prototype.slice.call(arguments, 1);
   
   if(route.type){
     var page;
     
     if(typeof route.instance === "undefined"){
-      page = new route.type(params);
+      page = new route.type(route.params);
       route.instance = page;
     } else {
       page = route.instance;
     }
+    
+    const currentPage  = this.__history.current() || {};
 
     this.__history
       .push({
         path: path, 
         params: params,
-        instance: route.instance
       });
-
-    page.setRouteParams(params);
-    page.show.apply(page, route.transitionParams());
+      
+    page.setRouteParams.apply(page, params);
+    page.show.apply(page, route.transitionParams(currentPage.path));
     
     return page;
-    // (SMF.UI.MotionEase.DECELERATING, SMF.UI.TransitionEffect.RIGHTTOLEFT, SMF.UI.TransitionEffectType.REVEAL,false,false)
-    // .apply(page, route.transitionParams());
   } else {
     throw new Error("[ Router ] Page cannot be found on path : "+path);
   }
@@ -213,6 +216,11 @@ Router.next = function() {
  * @static
  */
 Router.back = function() {
+  var history = this
+    .__history
+    .prev()
+    .current();
+  
   Pages.back();
   
   return;

@@ -82,7 +82,7 @@ describe("Styler", function() {
   beforeEach(function() {
   });
 
-  it("should parse className from formatted string", function() {
+  it("should parse classNames from formatted string", function() {
     expect(findClassNames(".button.red .layout.left")).toEqual([['.button', '.red' ], [ '.layout', '.left' ]]);
     expect(findClassNames(".button .red   .layout.left")).toEqual([['.button'], ['.red' ], [ '.layout', '.left' ]]);
   });

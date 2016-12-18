@@ -1,5 +1,5 @@
 const Component  = require("../component.js");
-const Rx         = require("../../../libs/rx.all.js");
+const Rx         = require("rx/dist/rx.all.js");
 // const SMFConsole = require("../log.js");
 
 // Compose 

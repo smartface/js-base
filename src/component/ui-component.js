@@ -5,7 +5,7 @@ const AbstractComponent = require("../core/abstract-component");
 /**
  * UI Component Abstraction
  * UI Component has SMF.UI.Container as defualt
- * UI Component are styleable
+ * UI Component is styleable
  * 
  * @version 1.2.0
  * @class

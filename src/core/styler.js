@@ -60,12 +60,16 @@ const assignStyles = function(style, classNames, fn) {
 };
 
 /**
- * Styling Wrapper Curry Funtion
+ * Styling Wrapper
  * Returns style scoped function
  * 
  * @params {object} style Styles Object
  */
 const styler = function(style) {
+  if(typeof style !== 'undefined') {
+    cache.__style__ = style;
+  } 
+
   return function(classNames) {
     if (!cache.hasOwnProperty(classNames)) {
       cache[classNames] = [];
@@ -76,12 +80,10 @@ const styler = function(style) {
           fn(item[0], item[1], item[2]);
         })
       } else {
-        // setTimeout(function () {
-        assignStyles(style, classNamesArr, function(className, key, value) {
+        assignStyles(cache.__style__, classNamesArr, function(className, key, value) {
           cache[classNames].push([className, key, value]);
           fn(className, key, value);
         });
-        // }, 0)
       }
     }.bind(null, findClassNames(classNames));
   };
@@ -108,15 +110,25 @@ _exports.styler = styler;
  * 
  */
 _exports.componentStyler = function(style) {
-  var styler = styler(style);
+  var styler = _exports.styler(style);
   return function(className) {
     styler = styler(className);
-    return function(component) {
+    return function(component, componentName) {
       styler(function(styleName, key, value) {
-        if (component instanceof AbstractComponent && component.get('name') == styleName && component.hasProp(key)) {
-          component.set(key, value);
-        } else if(component.name && component.name == styleName && component.hasOwnProperty(key)) {
-          component[key] = value;
+        function setKey(key, value){
+          if(typeof value === 'object'){
+            Object.assign(component[key], value);
+          } else {
+            component[key] = value;
+          }
+        }
+        
+        if(((componentName && componentName == styleName) || (className && styleName)) && component.hasOwnProperty(key)) {
+          if (component instanceof AbstractComponent && componentName == styleName && component.hasProp(key)) {
+            component.set(key, value);
+          } else {
+            setKey(key, value);
+          }
         } else {
           console.log("[Warning][ComponentName :"+component.name+", StyleName: "+styleName+"] style cannot be assigned.");
         }

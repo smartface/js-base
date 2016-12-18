@@ -18,6 +18,9 @@ const Page = extend(AbstractPage)(
 		_proto.show = function(){
 			this._view.show.apply(this._view, arguments);
 		};
+		_proto.setRouteParams = function(){
+			throw new Error("[Page "+this.get("name")+"] setRouteParams params must be overrode.");
+		}
 	});
 
 module.exports = Page;
