@@ -2,7 +2,7 @@
  * Created by smartface on 10/20/16.
  */
  
-const Rx = require("rx/dist/rx.all");
+const Rx = require("rx");
 const Page = ["onControlRemoved", "onControlAdded", "onKeyPressed", "onClose", "onShow", "onOrientationChanged"];
 var _observable = Rx.Observable;
 
