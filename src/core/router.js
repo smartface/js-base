@@ -121,6 +121,11 @@ const RouteHistory = function() {
   };
 };
 
+const go = function(page, params, transitionParams) {
+  page.setRouteParams.apply(page, params);
+  page.show.apply(page, transitionParams);
+}
+
 /**
  * @type {RouteHistory}
  * @static
@@ -146,15 +151,9 @@ Router.add = function(path, pageClass, transitionParams) {
   this.__routes[path] = {type: pageClass, transitionParams: transitionParams};
 };
 
-/**
- * Creates and shows a page by specified path and injects route and page params.
- * 
- * @param {String} path routing path of page
- * @param {Object} params injects routing data to page
- */
-Router.go = function(path, params) {
+Router.goTransitionless = function(path){
   var route = this.__routes[path];
-  params = Array.prototype.slice.call(arguments, 1);
+  var params = Array.prototype.slice.call(arguments, 1);
   
   if(route.type){
     var page;
@@ -174,13 +173,52 @@ Router.go = function(path, params) {
         params: params,
       });
       
-    page.setRouteParams.apply(page, params);
-    page.show.apply(page, route.transitionParams(currentPage.path));
+    go(page, params, function(){});
     
     return page;
   } else {
     throw new Error("[ Router ] Page cannot be found on path : "+path);
-  }
+  } 
+
+};
+
+/**
+ * Creates and shows a page by specified path and injects route and page params.
+ * 
+ * @param {String} path routing path of page
+ * @param {Object} params injects routing data to page
+ */
+Router.go = function(path) {
+   var route = this.__routes[path];
+  var params = Array.prototype.slice.call(arguments, 1);
+  
+  if(route.type){
+    var page;
+    
+    if(typeof route.instance === "undefined"){
+      page = new route.type(route.params);
+      route.instance = page;
+    } else {
+      page = route.instance;
+    }
+    
+    const currentPage  = this.__history.current() || {};
+
+    this.__history
+      .push({
+        path: path, 
+        params: params,
+      });
+      
+    // page.setRouteParams.apply(page, params);
+    // page.show.apply(page, route.transitionParams(currentPage));
+    go(page, params, route.transitionParams(currentPage));
+    
+    return page;
+  } else {
+    throw new Error("[ Router ] Page cannot be found on path : "+path);
+  } 
+
 };
 
 /**
