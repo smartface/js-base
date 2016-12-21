@@ -4,6 +4,8 @@
 
 const findClassNames = require("./../src/core/styler").findClassNames;
 const styler = require("./../src/core/styler").styler;
+const resetStylerCache = require("./../src/core/styler").resetStylerCache;
+const componentStyler = require("./../src/core/styler").componentStyler;
 
 describe("Styler", function() {
   var component = {prop:"-", top: 0, left: 0};
@@ -60,9 +62,18 @@ describe("Styler", function() {
       ".button": {
         width: 100,
         height: 200,
-        ".red":{
-          color: "red",
+        ".red": {
+          color: "red1",
         }
+      },
+      ".label": {
+        ".button": {
+          width: 300,
+          height: 400,
+          ".red":{
+            color: "red2",
+          }
+        },
       },
       ".text-16":{
         font: {
@@ -85,6 +96,7 @@ describe("Styler", function() {
   it("should parse classNames from formatted string", function() {
     expect(findClassNames(".button.red .layout.left")).toEqual([['.button', '.red' ], [ '.layout', '.left' ]]);
     expect(findClassNames(".button .red   .layout.left")).toEqual([['.button'], ['.red' ], [ '.layout', '.left' ]]);
+    expect(findClassNames(".button .red .label.button.red   .layout.left")).toEqual([['.button'], ['.red' ], [ '.label', '.button', '.red'], [ '.layout', '.left' ]]);
   });
   
   it("should pass styles to callback", function() {
@@ -104,10 +116,34 @@ describe("Styler", function() {
       }
     };
     
-    const styling = styler(style3);
+    const component3 = {
+      width: 0,
+      height: 0,
+      color: "",
+      font: {
+        size: "",
+        bold: ""
+      }
+    };
     
+    const componentStyling = componentStyler(style4)(".label.button.red")(component3);
+    expect(component3).toEqual({
+      width: 300,
+      height: 400,
+      color: "red2",
+      font: {
+        size: "",
+        bold: ""
+      }
+    });
+    
+    const styling = styler(style3);
     styling(".button.red")(function(className, key, value) {
       component[key] = value;
+    });
+    
+    styling(".button .red .label.button.red   .layout.left")(function(className, key, value){
+      
     });
     
     styling(".button .text-16.blue.bold")(function(className, key, value){
@@ -141,7 +177,22 @@ describe("Styler", function() {
     
     styling(".text-16.blue")(function(className, key, value) {
       component[key] = value;
-      // console.log(className+" - "+key+" - "+value);
+    });
+    
+    expect(component).toEqual({
+      fillColor: "black",
+      font: {
+        size: "12dp"
+      }
+    });
+  });
+
+  it("should pass element styles to callback2", function() {
+    const styling = styler(style4);
+    var component = {};
+    
+    styling(".text-16.blue")(function(className, key, value) {
+      component[key] = value;
     });
     
     expect(component).toEqual({

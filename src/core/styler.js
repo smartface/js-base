@@ -40,24 +40,26 @@ const findClassNames = (function() {
 _exports.findClassNames = findClassNames;
 
 const assignStyles = function(style, classNames, fn) {
-  classNames.map(function(className) {
-    if (Array.isArray(className)) {
-      return assignStyles(style, className, fn);
-    }
-    else if (typeof style[className] === "object" && classNames) {
-      Object.keys(style[className])
-        .map(function(key) {
-          if (key.charAt(0) !== "." && key.charAt(0) !== "&") {
-            fn(className, key, style[className][key]);
-          }
-          else if (key.charAt(0) === "&") {
-            classNames.push(key);
-          }
-        });
-      return assignStyles(style[className], classNames.slice(1), fn);
-    }
-  });
+  classNames = classNames.slice();
+  const className = classNames.shift();
+  
+  if (Array.isArray(className)) {
+    assignStyles(style, className, fn);
+  } else if (typeof style[className] === "object" && classNames) {
+    Object.keys(style[className])
+      .map(function(key) {
+        if (key.charAt(0) !== "." && key.charAt(0) !== "&") {
+          fn(className, key, style[className][key]);
+        } else if (key.charAt(0) === "&") {
+          classNames.push(key);
+        }
+      });
+
+    assignStyles( style[className], classNames, fn);
+  }
 };
+
+_exports.assignStyles = assignStyles;
 
 /**
  * Styling Wrapper
@@ -71,25 +73,45 @@ const styler = function(style) {
   } 
 
   return function(classNames) {
-    if (!cache.hasOwnProperty(classNames)) {
-      cache[classNames] = [];
-    }
-    return function(classNamesArr, fn) {
-      if (cache.hasOwnProperty(classNames) && cache[classNames].length > 0) {
-        cache[classNames].map(function(item) {
-          fn(item[0], item[1], item[2]);
-        })
-      } else {
-        assignStyles(cache.__style__, classNamesArr, function(className, key, value) {
-          cache[classNames].push([className, key, value]);
-          fn(className, key, value);
-        });
-      }
-    }.bind(null, findClassNames(classNames));
+    const classNamesArr = findClassNames(classNames);
+    return function(fn) {
+      classNamesArr.forEach(function(classNames) {
+        const classesStr = classNames.join("");
+
+        if (cache.hasOwnProperty(classesStr) && cache[classesStr].length > 0) {
+          cache[classesStr].map(function(item) {
+            fn(item[0], item[1], item[2]);
+          });
+        } else {
+          assignStyles(
+            style, 
+            classNames,
+            function(className, key, value) {
+              cacheStyle(classesStr, className, key, value);
+              fn(className, key, value);
+            });
+        }
+      });
+    };
   };
+  
 };
 
+function cacheStyle(classes, className, key, value) {
+  if (!cache.hasOwnProperty(classes)) {
+    cache[classes] = [];
+  }
+
+  cache[classes].push([className, key, value]);
+}
+
 _exports.styler = styler;
+
+const resetStylerCache = function() {
+  cache = {};
+};
+
+_exports.resetStylerCache = resetStylerCache;
 
 /**
  * Component styling wrapper
@@ -111,8 +133,10 @@ _exports.styler = styler;
  */
 _exports.componentStyler = function(style) {
   var styler = _exports.styler(style);
+  
   return function(className) {
     styler = styler(className);
+    
     return function(component, componentName) {
       styler(function(styleName, key, value) {
         function setKey(key, value){
