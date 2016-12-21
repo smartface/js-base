@@ -135,10 +135,8 @@ _exports.componentStyler = function(style) {
   var styler = _exports.styler(style);
   
   return function(className) {
-    styler = styler(className);
-    
     return function(component, componentName) {
-      styler(function(styleName, key, value) {
+      styler(className)(function(styleName, key, value) {
         function setKey(key, value){
           if(typeof value === 'object'){
             Object.assign(component[key], value);
@@ -160,5 +158,7 @@ _exports.componentStyler = function(style) {
     };
   };
 };
+
+
 
 module.exports = _exports;
