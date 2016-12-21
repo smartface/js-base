@@ -84,7 +84,7 @@ const styler = function(style) {
           });
         } else {
           assignStyles(
-            style, 
+            cache.__style__, 
             classNames,
             function(className, key, value) {
               cacheStyle(classesStr, className, key, value);
