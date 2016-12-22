@@ -94,7 +94,6 @@ const styler = function(style) {
       });
     };
   };
-  
 };
 
 function cacheStyle(classes, className, key, value) {
@@ -137,7 +136,7 @@ _exports.componentStyler = function(style) {
   return function(className) {
     return function(component, componentName) {
       styler(className)(function(styleName, key, value) {
-        function setKey(key, value){
+        function setKey(component, key, value){
           if(typeof value === 'object'){
             Object.assign(component[key], value);
           } else {
@@ -149,16 +148,18 @@ _exports.componentStyler = function(style) {
           if (component instanceof AbstractComponent && componentName == styleName && component.hasProp(key)) {
             component.set(key, value);
           } else {
-            setKey(key, value);
+            setKey(component, key, value);
           }
         } else {
+          if(typeof component === "object") {
+            setKey(component, key, value);
+          }
+          
           console.log("[Warning][ComponentName :"+component.name+", StyleName: "+styleName+"] style cannot be assigned.");
         }
       });
     };
   };
 };
-
-
 
 module.exports = _exports;
