@@ -287,12 +287,12 @@
                     filename = tryPackage(basePath, exts, isMain);
                 }
 
-                /* if (!filename) {
+                if (!filename) {
                      // try it with each of the extensions at "index"
                      if (exts === undefined)
                          exts = Object.keys(Module._extensions);
                      filename = tryExtensions(path.resolve(basePath, 'index'), exts, isMain);
-                 }*/
+                 }
 
                 if (filename) {
                     // Warn once if '.' resolved outside the module dir
@@ -662,7 +662,6 @@
         // Native extension for .json
         Module._extensions['.json'] = function(module, filename) {
             // var content = fs.readFileSync(filename, 'utf8');
-            throw Error("Not implemented");
             var fileN = filename.startsWith("./") ? filename.substr(2) : filename;
             var content = SMF.readCode(fileN);
             try {
@@ -2062,7 +2061,6 @@
         this.runInThisContext = function runInThisContext(options) {
             try {
                 var fn = eval(code);
-
             }
             catch (ex) {
                 throw ex;
