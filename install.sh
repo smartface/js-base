@@ -1,9 +1,9 @@
 echo "=============> JsBase installation"
 npm test
-rm -rf ../scripts/node_modules
+
+rm -rf ../scripts/node_modules/{js-base,rx,jasmine-reporters,babel-polyfill}
 
 mkdir -p ../scripts/node_modules/js-base/ 2>> /dev/null
-# mkdir -p ../scripts/node_modules/rx 2>> /dev/null
 mkdir -p ../scripts/node_modules/rx/dist 2>> /dev/null
 
 # mkdir -p ../scripts/node_modules/jasmine-reporters 2>> /dev/null
