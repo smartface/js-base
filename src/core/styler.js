@@ -9,7 +9,7 @@ const getClassValue = function(styleDef) {
     if (typeof styleDef[className] === "undefined") {
       return styleDef[className];
     } else {
-      throw new Error(`Specified className ${className} is not found.`);
+      throw new Error("Specified className ${className} is not found.");
     }
   };
 };
