@@ -8,7 +8,6 @@
 function inheritFrom(base, sub){
   const statics = Object.assign({}, base, sub);
   Object.assign(sub, statics);
-  
   sub.prototype = Object.create(base.prototype);
   sub.prototype.constructor = sub;
 }
@@ -26,7 +25,7 @@ const extend = function (_super) {
         // if _super is bounded function, extract original function
         __super = fn;
         
-        inheritFrom(_super, fn);
+        inheritFrom(fn, f);
       });
     } else {
       __super = _super;
