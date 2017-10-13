@@ -1,11 +1,15 @@
 /**
  * Extend is the inheritance tool to create components, pages etc.
  * 
- * @verison 1.0.0
+ * @verison 1.1.0
  * @params {function} _super Super class constructor which is interited by concrete class
  */
 const extend = function (_super) {
-  return function (f, addMethods) {
+  return function createChildClass(f, proto) {
+    if(this && this instanceof createChildClass){
+      return new _super();
+    }
+    
     var __super = _super;
     
     if(_super.__map__){
@@ -13,16 +17,18 @@ const extend = function (_super) {
         // if _super is bounded function, extract original function
         __super = fn;
         f.prototype = Object.create(fn.prototype);
+        f.prototype.constructor = f;
       });
     } else {
       __super = _super;
       f.prototype = Object.create(_super.prototype);
+      f.prototype.constructor = f;
     }
     
     // If exists user public methods helper
-    if(addMethods) {
+    if(proto) {
       // add methods to current class
-      addMethods(f.prototype);
+      proto(f.prototype);
     }
 
     // original super class constructor
@@ -30,9 +36,6 @@ const extend = function (_super) {
       return function (_scope){
         //converts arguments array
         var args = Array.prototype.slice.call(arguments, 1);
-        if(_scope == global){
-          throw new Error("invalid scope: Global.");
-        }
         
         // creates super constructor chain for nested inheritance
         if(_super.__origfn__){
