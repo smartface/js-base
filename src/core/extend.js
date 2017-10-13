@@ -1,9 +1,18 @@
 /**
  * Extend is the inheritance tool to create components, pages etc.
  * 
- * @verison 1.1.0
+ * @verison 1.1.1
  * @params {function} _super Super class constructor which is interited by concrete class
  */
+ 
+function inheritFrom(base, sub){
+  const statics = Object.assign({}, base, sub);
+  Object.assign(sub, statics);
+  
+  sub.prototype = Object.create(base.prototype);
+  sub.prototype.constructor = sub;
+}
+
 const extend = function (_super) {
   return function createChildClass(f, proto) {
     if(this && this instanceof createChildClass){
@@ -16,13 +25,13 @@ const extend = function (_super) {
       _super.__map__(function(fn){
         // if _super is bounded function, extract original function
         __super = fn;
-        f.prototype = Object.create(fn.prototype);
-        f.prototype.constructor = f;
+        
+        inheritFrom(_super, fn);
       });
     } else {
       __super = _super;
-      f.prototype = Object.create(_super.prototype);
-      f.prototype.constructor = f;
+
+      inheritFrom(_super, f);
     }
     
     // If exists user public methods helper
