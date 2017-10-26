@@ -1,12 +1,16 @@
 {
-  "name": "smf-js-base",
+  "name": "js-base",
+  "version": "1.0.2",
   "description": "Smartface Core",
   "repository": "",
   "license": "MIT",
   "version": "1.0.0-beta2",
   "scripts": {
     "test": "node ./test.js",
-    "jasmine": "jasmine"
+    "jasmine": "jasmine",
+    "prepublish": "mkdir -p core && cp ./src/core/extend.js ./core",
+    "postpublish": "rm -r ./core",
+    "publish": "npm publish"
   },
   "devDependencies": {
     "eslint": "^3.9.1",

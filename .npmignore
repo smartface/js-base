@@ -1,0 +1,8 @@
+.gitignore
+.src
+.git
+spec
+test
+install.sh
+test.js
+diagram.png
